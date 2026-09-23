@@ -134,3 +134,6 @@ Google login → `/setup` (router-enforced for profile-less users): editable nam
 
 ## 26. UI polish + web branding
 Typography scale reduced through the centralized `AppText`/Material theme (hero 24px, headings 16px, body 13px, metadata 12px) and direct screen overrides were removed where tokens already existed. Profile height is displayed in ft/in. Setup fields include example hints (name, phone, weight, feet, inches, target kg). The public web shell now has Total Fit Gym black/yellow dumbbell favicon and PWA icons, author metadata (`sived.codes`), and a shared developer credit shown on login, owner home, and member profile.
+
+## 27. Render deployment support
+Render's native build environment does not ship Flutter. `render_build.sh` downloads checksum-verified Flutter `3.44.9` (Dart `3.12.2`), installs it under the build temp directory, runs `flutter pub get`, and emits `build/web`. Render settings: root directory blank, build command `bash render_build.sh`, publish directory `build/web`, branch `main`. The SDK bootstrap is intentionally pinned so local and CI builds use the same Dart constraint.
