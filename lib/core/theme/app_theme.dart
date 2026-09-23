@@ -71,11 +71,41 @@ abstract final class AppTheme {
       ),
       textTheme: body.copyWith(
         displayLarge: GoogleFonts.sora(
-            fontSize: 32, fontWeight: FontWeight.w800, letterSpacing: -0.5),
+          fontSize: 24,
+          fontWeight: FontWeight.w800,
+          letterSpacing: -0.5,
+        ),
         displayMedium: GoogleFonts.sora(
-            fontSize: 24, fontWeight: FontWeight.w800, letterSpacing: -0.3),
-        titleLarge: GoogleFonts.sora(fontSize: 19, fontWeight: FontWeight.w700),
-        titleMedium: GoogleFonts.sora(fontSize: 16, fontWeight: FontWeight.w700),
+          fontSize: 20,
+          fontWeight: FontWeight.w800,
+          letterSpacing: -0.3,
+        ),
+        displaySmall: GoogleFonts.sora(
+          fontSize: 18,
+          fontWeight: FontWeight.w700,
+        ),
+        headlineSmall: GoogleFonts.sora(
+          fontSize: 18,
+          fontWeight: FontWeight.w700,
+        ),
+        titleLarge: GoogleFonts.sora(fontSize: 16, fontWeight: FontWeight.w700),
+        titleMedium: GoogleFonts.sora(
+          fontSize: 14,
+          fontWeight: FontWeight.w700,
+        ),
+        titleSmall: GoogleFonts.sora(fontSize: 13, fontWeight: FontWeight.w700),
+        bodyLarge: GoogleFonts.inter(fontSize: 14),
+        bodyMedium: GoogleFonts.inter(fontSize: 13),
+        bodySmall: GoogleFonts.inter(fontSize: 12),
+        labelLarge: GoogleFonts.sora(fontSize: 13, fontWeight: FontWeight.w700),
+        labelMedium: GoogleFonts.inter(
+          fontSize: 11,
+          fontWeight: FontWeight.w600,
+        ),
+        labelSmall: GoogleFonts.inter(
+          fontSize: 10,
+          fontWeight: FontWeight.w600,
+        ),
       ),
       appBarTheme: AppBarTheme(
         backgroundColor: AppColors.black,
@@ -84,7 +114,7 @@ abstract final class AppTheme {
         scrolledUnderElevation: 0,
         centerTitle: false,
         titleTextStyle: GoogleFonts.sora(
-          fontSize: 18,
+          fontSize: 16,
           fontWeight: FontWeight.w800,
           letterSpacing: 0.3,
           color: AppColors.yellow,
@@ -104,7 +134,10 @@ abstract final class AppTheme {
           backgroundColor: AppColors.yellow,
           foregroundColor: AppColors.black,
           minimumSize: const Size(48, 56),
-          textStyle: GoogleFonts.sora(fontWeight: FontWeight.w700, fontSize: 15),
+          textStyle: GoogleFonts.sora(
+            fontWeight: FontWeight.w700,
+            fontSize: 14,
+          ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadius.m),
           ),
@@ -116,7 +149,10 @@ abstract final class AppTheme {
           foregroundColor: AppColors.yellow,
           side: const BorderSide(color: Color(0x66FFC400), width: 1.2),
           minimumSize: const Size(48, 56),
-          textStyle: GoogleFonts.sora(fontWeight: FontWeight.w700, fontSize: 15),
+          textStyle: GoogleFonts.sora(
+            fontWeight: FontWeight.w700,
+            fontSize: 14,
+          ),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppRadius.m),
           ),
@@ -128,9 +164,11 @@ abstract final class AppTheme {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: AppColors.surface,
-        hintStyle: const TextStyle(color: AppColors.faint),
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        hintStyle: const TextStyle(color: AppColors.faint, fontSize: 12),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 16,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppRadius.m),
           borderSide: const BorderSide(color: AppColors.line),
@@ -148,7 +186,7 @@ abstract final class AppTheme {
         backgroundColor: AppColors.black,
         indicatorColor: const Color(0x33FFC400),
         labelTextStyle: WidgetStateProperty.all(
-          const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+          const TextStyle(fontSize: 10, fontWeight: FontWeight.w600),
         ),
       ),
       chipTheme: base.chipTheme.copyWith(
@@ -168,21 +206,22 @@ abstract final class AppTheme {
       bottomSheetTheme: const BottomSheetThemeData(
         backgroundColor: AppColors.card,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.xl)),
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(AppRadius.xl),
+          ),
           side: BorderSide(color: AppColors.line),
         ),
       ),
       snackBarTheme: SnackBarThemeData(
         backgroundColor: AppColors.cardHi,
-        contentTextStyle: const TextStyle(color: AppColors.white),
+        contentTextStyle: const TextStyle(color: AppColors.white, fontSize: 12),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(AppRadius.m),
           side: const BorderSide(color: AppColors.line),
         ),
         behavior: SnackBarBehavior.floating,
       ),
-      dividerTheme:
-          const DividerThemeData(color: AppColors.line, thickness: 1),
+      dividerTheme: const DividerThemeData(color: AppColors.line, thickness: 1),
     );
   }
 }

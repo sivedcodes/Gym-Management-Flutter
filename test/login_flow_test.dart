@@ -24,21 +24,18 @@ void main() {
     await t.pumpAndSettle();
     // Setup screen: identity, body stats, goal, BMI, splits.
     expect(find.text('Setup profile'), findsOneWidget);
-    expect(find.widgetWithText(TextFormField, 'Full name'),
-        findsOneWidget);
-    expect(find.widgetWithText(TextFormField, 'Mobile number'),
-        findsOneWidget);
-    expect(find.widgetWithText(TextFormField, 'Weight (kg)'),
-        findsOneWidget);
-    expect(find.widgetWithText(TextFormField, 'Height (cm)'),
-        findsOneWidget);
+    expect(find.widgetWithText(TextFormField, 'Full name'), findsOneWidget);
+    expect(find.widgetWithText(TextFormField, 'Mobile number'), findsOneWidget);
+    expect(find.widgetWithText(TextFormField, 'Weight (kg)'), findsOneWidget);
+    expect(find.widgetWithText(TextFormField, 'Height (ft)'), findsOneWidget);
+    expect(find.widgetWithText(TextFormField, 'Inches'), findsOneWidget);
     expect(find.text('Your BMI'), findsOneWidget);
     // Lower sections sit below the fold — scroll, then verify.
     Future<void> scrollTo(String s) => t.scrollUntilVisible(
-          find.text(s),
-          300,
-          scrollable: find.byType(Scrollable).first,
-        );
+      find.text(s),
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
     await scrollTo('Goal');
     expect(find.text('Goal'), findsOneWidget);
     await scrollTo('Workout split');

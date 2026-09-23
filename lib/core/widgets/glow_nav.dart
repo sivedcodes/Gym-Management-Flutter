@@ -53,11 +53,7 @@ class GlowNav extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             for (var i = 0; i < items.length; i++)
-              _Btn(
-                item: items[i],
-                selected: i == index,
-                onTap: () => onTap(i),
-              ),
+              _Btn(item: items[i], selected: i == index, onTap: () => onTap(i)),
           ],
         ),
       ),
@@ -69,11 +65,7 @@ class _Btn extends StatelessWidget {
   final GlowNavItem item;
   final bool selected;
   final VoidCallback onTap;
-  const _Btn({
-    required this.item,
-    required this.selected,
-    required this.onTap,
-  });
+  const _Btn({required this.item, required this.selected, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -99,14 +91,11 @@ class _Btn extends StatelessWidget {
                 child: Icon(
                   selected ? item.activeIcon : item.icon,
                   size: AppIcon.nav,
-                  color: selected
-                      ? AppColors.yellow
-                      : AppColors.faint,
+                  color: selected ? AppColors.yellow : AppColors.faint,
                   shadows: selected
                       ? [
                           Shadow(
-                            color: AppColors.yellow
-                                .withValues(alpha: 0.9),
+                            color: AppColors.yellow.withValues(alpha: 0.9),
                             blurRadius: 14,
                           ),
                         ]
@@ -118,13 +107,9 @@ class _Btn extends StatelessWidget {
             Text(
               item.label,
               maxLines: 1,
-              style: AppText.tiny.copyWith(
-                fontSize: 10.5,
-                fontWeight:
-                    selected ? FontWeight.w700 : FontWeight.w500,
-                color: selected
-                    ? AppColors.yellow
-                    : AppColors.faint,
+              style: AppText.navLabel.copyWith(
+                fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                color: selected ? AppColors.yellow : AppColors.faint,
               ),
             ),
           ],

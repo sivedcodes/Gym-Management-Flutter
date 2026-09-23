@@ -25,7 +25,8 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
   late final TextEditingController _name;
   late final TextEditingController _phone;
   late final TextEditingController _weight;
-  late final TextEditingController _height;
+  late final TextEditingController _ft;
+  late final TextEditingController _inch;
   late final TextEditingController _target;
   String _goal = 'maintain';
   String? _splitId;
@@ -38,9 +39,10 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
     _name = TextEditingController();
     _phone = TextEditingController();
     _weight = TextEditingController();
-    _height = TextEditingController();
+    _ft = TextEditingController();
+    _inch = TextEditingController();
     _target = TextEditingController();
-    for (final c in [_weight, _height]) {
+    for (final c in [_weight, _ft, _inch]) {
       c.addListener(() => setState(() {})); // live BMI
     }
   }
@@ -50,7 +52,8 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
     _name.dispose();
     _phone.dispose();
     _weight.dispose();
-    _height.dispose();
+    _ft.dispose();
+    _inch.dispose();
     _target.dispose();
     super.dispose();
   }
@@ -64,18 +67,24 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
       _weight.text = _num(me.weightKg!);
     }
     if (me.heightCm != null) {
-      _height.text = _num(me.heightCm!);
+      final ftIn = AppUser.cmToFtIn(me.heightCm!);
+      _ft.text = '${ftIn[0]}';
+      _inch.text = '${ftIn[1]}';
     }
     if (me.goal != null) _goal = me.goal!;
     if (me.targetKg != null) _target.text = _num(me.targetKg!);
     _splitId = me.splitId ?? 'split_ppl';
   }
 
-  String _num(double v) =>
-      v == v.roundToDouble() ? '${v.toInt()}' : '$v';
+  String _num(double v) => v == v.roundToDouble() ? '${v.toInt()}' : '$v';
 
   double? get _w => double.tryParse(_weight.text.trim());
-  double? get _h => double.tryParse(_height.text.trim());
+  double? get _h {
+    final ft = int.tryParse(_ft.text.trim());
+    final inch = int.tryParse(_inch.text.trim());
+    if (ft == null || inch == null) return null;
+    return AppUser.ftInToCm(ft, inch);
+  }
 
   double? get _bmi {
     final w = _w, h = _h;
@@ -96,7 +105,9 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
     final uid = ref.read(currentUidProvider);
     if (uid != null && mounted) {
       final t = double.tryParse(_target.text.trim());
-      ref.read(fakeDbProvider).saveProfile(
+      ref
+          .read(fakeDbProvider)
+          .saveProfile(
             uid,
             name: _name.text.trim(),
             phone: _phone.text.trim(),
@@ -110,9 +121,10 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-              content: Text(isEdit
-                  ? 'Profile updated.'
-                  : 'Welcome to Total Fit Gym!')),
+            content: Text(
+              isEdit ? 'Profile updated.' : 'Welcome to Total Fit Gym!',
+            ),
+          ),
         );
         if (isEdit) context.pop();
       }
@@ -124,15 +136,13 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
   Widget build(BuildContext context) {
     final me = ref.watch(currentUserProvider);
     if (me == null) {
-      return const Scaffold(
-          body: Center(child: CircularProgressIndicator()));
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
     _prefill(me);
     final isEdit = me.hasProfile;
     final db = ref.watch(fakeDbProvider);
     final splits = db.activeSplits();
-    final selected =
-        splits.where((s) => s.id == _splitId).firstOrNull;
+    final selected = splits.where((s) => s.id == _splitId).firstOrNull;
 
     return Scaffold(
       appBar: AppBar(
@@ -148,9 +158,7 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
             children: [
               FadeSlideIn(
                 child: Text(
-                  isEdit
-                      ? 'Keep your stats fresh.'
-                      : 'Tell us about yourself.',
+                  isEdit ? 'Keep your stats fresh.' : 'Tell us about yourself.',
                   style: AppText.display,
                 ),
               ),
@@ -171,10 +179,10 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
               _field(
                 controller: _name,
                 label: 'Full name',
+                hint: 'e.g. Rahul Sharma',
                 icon: AppIcons.member,
-                validator: (v) => (v ?? '').trim().length < 2
-                    ? 'Enter your name'
-                    : null,
+                validator: (v) =>
+                    (v ?? '').trim().length < 2 ? 'Enter your name' : null,
               ),
               const SizedBox(height: AppSpace.m),
               TextFormField(
@@ -189,58 +197,60 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
               _field(
                 controller: _phone,
                 label: 'Mobile number',
+                hint: 'e.g. 98765 43210',
                 icon: AppIcons.phoneAlt,
                 keyboard: TextInputType.phone,
                 maxLen: 10,
                 prefix: '+91  ',
                 validator: (v) {
-                  final d =
-                      (v ?? '').replaceAll(RegExp(r'\D'), '');
+                  final d = (v ?? '').replaceAll(RegExp(r'\D'), '');
                   return d.length != 10
                       ? 'Enter a valid 10-digit number'
                       : null;
                 },
               ),
               const SizedBox(height: AppSpace.sectionGap),
-              FadeSlideIn(
-                child: const SectionHeader(title: 'Body stats'),
+              FadeSlideIn(child: const SectionHeader(title: 'Body stats')),
+              const SizedBox(height: AppSpace.m),
+              _field(
+                controller: _weight,
+                label: 'Weight (kg)',
+                hint: 'e.g. 70',
+                icon: AppIcons.weight,
+                keyboard: const TextInputType.numberWithOptions(decimal: true),
+                validator: (v) {
+                  final n = double.tryParse(v ?? '');
+                  return (n == null || n < 20 || n > 300) ? '20–300 kg' : null;
+                },
               ),
               const SizedBox(height: AppSpace.m),
               Row(
                 children: [
                   Expanded(
                     child: _field(
-                      controller: _weight,
-                      label: 'Weight (kg)',
-                      icon: AppIcons.weight,
-                      keyboard:
-                          const TextInputType.numberWithOptions(
-                              decimal: true),
+                      controller: _ft,
+                      label: 'Height (ft)',
+                      hint: 'e.g. 5',
+                      icon: AppIcons.height,
+                      keyboard: TextInputType.number,
                       validator: (v) {
-                        final n = double.tryParse(v ?? '');
-                        return (n == null ||
-                                n < 20 ||
-                                n > 300)
-                            ? '20–300 kg'
-                            : null;
+                        final n = int.tryParse(v ?? '');
+                        return (n == null || n < 3 || n > 8) ? '3–8 ft' : null;
                       },
                     ),
                   ),
                   const SizedBox(width: AppSpace.m),
                   Expanded(
                     child: _field(
-                      controller: _height,
-                      label: 'Height (cm)',
+                      controller: _inch,
+                      label: 'Inches',
+                      hint: 'e.g. 9',
                       icon: AppIcons.height,
-                      keyboard:
-                          const TextInputType.numberWithOptions(
-                              decimal: true),
+                      keyboard: TextInputType.number,
                       validator: (v) {
-                        final n = double.tryParse(v ?? '');
-                        return (n == null ||
-                                n < 100 ||
-                                n > 250)
-                            ? '100–250 cm'
+                        final n = int.tryParse(v ?? '');
+                        return (n == null || n < 0 || n > 11)
+                            ? '0–11 in'
                             : null;
                       },
                     ),
@@ -258,9 +268,8 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
                     Expanded(
                       child: Padding(
                         padding: EdgeInsets.only(
-                            right: g == 'maintain'
-                                ? 0
-                                : AppSpace.s),
+                          right: g == 'maintain' ? 0 : AppSpace.s,
+                        ),
                         child: AppChoice(
                           _goalLabel(g),
                           _goal == g,
@@ -277,10 +286,11 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
                   label: _goal == 'gain'
                       ? 'How many kg to gain?'
                       : 'How many kg to lose?',
+                  hint: 'e.g. 5',
                   icon: AppIcons.goal,
-                  keyboard:
-                      const TextInputType.numberWithOptions(
-                          decimal: true),
+                  keyboard: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
                   validator: (v) {
                     final n = double.tryParse(v ?? '');
                     return (n == null || n < 1 || n > 100)
@@ -293,8 +303,7 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
               SectionHeader(
                 title: 'Workout split',
                 action: 'View all',
-                onAction: () =>
-                    context.push('/splits'),
+                onAction: () => context.push('/splits'),
               ),
               const SizedBox(height: AppSpace.m),
               SizedBox(
@@ -307,8 +316,7 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
                       _SplitPick(
                         split: s,
                         selected: s.id == _splitId,
-                        onTap: () => setState(
-                            () => _splitId = s.id),
+                        onTap: () => setState(() => _splitId = s.id),
                       ),
                   ],
                 ),
@@ -319,31 +327,30 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
               ],
               const SizedBox(height: AppSpace.sectionGap),
               ElevatedButton.icon(
-                onPressed:
-                    _saving ? null : () => _save(isEdit),
+                onPressed: _saving ? null : () => _save(isEdit),
                 icon: _saving
                     ? const SizedBox(
                         width: 18,
                         height: 18,
                         child: CircularProgressIndicator(
-                            strokeWidth: 2.5,
-                            color: AppColors.black),
+                          strokeWidth: 2.5,
+                          color: AppColors.black,
+                        ),
                       )
-                    : const Icon(AppIcons.forward,
-                        size: AppIcon.btn),
-                label: Text(_saving
-                    ? 'Saving…'
-                    : isEdit
-                        ? 'Save changes'
-                        : 'Continue'),
+                    : const Icon(AppIcons.forward, size: AppIcon.btn),
+                label: Text(
+                  _saving
+                      ? 'Saving…'
+                      : isEdit
+                      ? 'Save changes'
+                      : 'Continue',
+                ),
               ),
               if (!isEdit) ...[
                 const SizedBox(height: AppSpace.s),
                 TextButton(
-                  onPressed:
-                      _saving ? null : () => logout(ref),
-                  child:
-                      const Text('Use a different account'),
+                  onPressed: _saving ? null : () => logout(ref),
+                  child: const Text('Use a different account'),
                 ),
               ],
               const SizedBox(height: AppSpace.xxl),
@@ -355,10 +362,10 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
   }
 
   String _goalLabel(String g) => switch (g) {
-        'gain' => 'Gain',
-        'loss' => 'Lose',
-        _ => 'Maintain',
-      };
+    'gain' => 'Gain',
+    'loss' => 'Lose',
+    _ => 'Maintain',
+  };
 
   Widget _field({
     required TextEditingController controller,
@@ -367,6 +374,7 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
     TextInputType? keyboard,
     int? maxLen,
     String? prefix,
+    String? hint,
     String? Function(String?)? validator,
   }) {
     return TextFormField(
@@ -375,6 +383,7 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
       maxLength: maxLen,
       decoration: InputDecoration(
         labelText: label,
+        hintText: hint,
         prefixIcon: Icon(icon),
         prefixText: prefix,
         counterText: '',
@@ -393,12 +402,12 @@ class _BmiCard extends StatelessWidget {
     final color = bmi == null
         ? AppColors.faint
         : bmi! < 18.5
-            ? AppColors.blue
-            : bmi! < 25
-                ? AppColors.green
-                : bmi! < 30
-                    ? AppColors.yellow
-                    : AppColors.red;
+        ? AppColors.blue
+        : bmi! < 25
+        ? AppColors.green
+        : bmi! < 30
+        ? AppColors.yellow
+        : AppColors.red;
     return AnimatedContainer(
       duration: const Duration(milliseconds: 250),
       padding: AppSpace.card,
@@ -406,9 +415,8 @@ class _BmiCard extends StatelessWidget {
         color: AppColors.card,
         borderRadius: BorderRadius.circular(AppRadius.l),
         border: Border.all(
-            color:
-                (bmi == null ? AppColors.line : color)
-                    .withValues(alpha: 0.4)),
+          color: (bmi == null ? AppColors.line : color).withValues(alpha: 0.4),
+        ),
       ),
       child: Row(
         children: [
@@ -418,17 +426,15 @@ class _BmiCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Your BMI',
-                    style: AppText.eyebrow),
+                Text('Your BMI', style: AppText.eyebrow),
                 const SizedBox(height: AppSpace.xs),
                 Text(
                   bmi == null
                       ? 'Enter weight + height'
                       : '${bmi!.toStringAsFixed(1)} · ${AppUser.bmiCategory(bmi!)}',
                   style: AppText.title.copyWith(
-                      color: bmi == null
-                          ? AppColors.grey
-                          : color),
+                    color: bmi == null ? AppColors.grey : color,
+                  ),
                 ),
               ],
             ),
@@ -459,35 +465,33 @@ class _SplitPick extends StatelessWidget {
         margin: const EdgeInsets.only(right: AppSpace.s),
         padding: AppSpace.card,
         decoration: BoxDecoration(
-          color:
-              selected ? AppColors.yellow : AppColors.card,
-          borderRadius:
-              BorderRadius.circular(AppRadius.l),
+          color: selected ? AppColors.yellow : AppColors.card,
+          borderRadius: BorderRadius.circular(AppRadius.l),
           border: Border.all(
-            color: selected
-                ? AppColors.yellow
-                : AppColors.line,
+            color: selected ? AppColors.yellow : AppColors.line,
           ),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(split.name,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: AppText.title.copyWith(
-                  color: selected
-                      ? AppColors.black
-                      : AppColors.white,
-                )),
+            Text(
+              split.name,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: AppText.title.copyWith(
+                color: selected ? AppColors.black : AppColors.white,
+              ),
+            ),
             const SizedBox(height: AppSpace.xs),
-            Text(split.level,
-                style: (selected
-                        ? AppText.tiny.copyWith(
-                            color: AppColors.black)
-                        : AppText.tiny)
-                    .copyWith(fontWeight: FontWeight.w700)),
+            Text(
+              split.level,
+              style:
+                  (selected
+                          ? AppText.tiny.copyWith(color: AppColors.black)
+                          : AppText.tiny)
+                      .copyWith(fontWeight: FontWeight.w700),
+            ),
           ],
         ),
       ),
@@ -499,8 +503,11 @@ class _SplitPick extends StatelessWidget {
 class WeekPreview extends StatelessWidget {
   final WorkoutSplit split;
   final bool highlightToday;
-  const WeekPreview(
-      {super.key, required this.split, this.highlightToday = false});
+  const WeekPreview({
+    super.key,
+    required this.split,
+    this.highlightToday = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -515,10 +522,12 @@ class WeekPreview extends StatelessWidget {
             Row(
               children: [
                 Expanded(
-                  child: Text(split.name,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppText.title),
+                  child: Text(
+                    split.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppText.title,
+                  ),
                 ),
                 Text(split.level, style: AppText.tiny),
               ],
@@ -526,25 +535,21 @@ class WeekPreview extends StatelessWidget {
             const SizedBox(height: AppSpace.m),
             ...split.days.asMap().entries.map((e) {
               final d = e.value;
-              final isToday =
-                  highlightToday && e.key == today;
+              final isToday = highlightToday && e.key == today;
               return Container(
-                margin: const EdgeInsets.only(
-                    bottom: AppSpace.s),
+                margin: const EdgeInsets.only(bottom: AppSpace.s),
                 padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpace.m,
-                    vertical: AppSpace.s),
+                  horizontal: AppSpace.m,
+                  vertical: AppSpace.s,
+                ),
                 decoration: BoxDecoration(
                   color: isToday
-                      ? AppColors.yellow
-                          .withValues(alpha: 0.12)
+                      ? AppColors.yellow.withValues(alpha: 0.12)
                       : AppColors.surface,
-                  borderRadius: BorderRadius.circular(
-                      AppRadius.s),
+                  borderRadius: BorderRadius.circular(AppRadius.s),
                   border: Border.all(
                     color: isToday
-                        ? AppColors.yellow
-                            .withValues(alpha: 0.5)
+                        ? AppColors.yellow.withValues(alpha: 0.5)
                         : AppColors.line,
                   ),
                 ),
@@ -552,34 +557,31 @@ class WeekPreview extends StatelessWidget {
                   children: [
                     SizedBox(
                       width: 40,
-                      child: Text(d.day,
-                          style: AppText.label.copyWith(
-                            color: isToday
-                                ? AppColors.yellow
-                                : AppColors.grey,
-                          )),
+                      child: Text(
+                        d.day,
+                        style: AppText.label.copyWith(
+                          color: isToday ? AppColors.yellow : AppColors.grey,
+                        ),
+                      ),
                     ),
                     Expanded(
                       child: Text(
                         d.rest ? 'Rest' : d.focus,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: (d.rest
-                                ? AppText.small
-                                : AppText.body)
-                            .copyWith(
-                          color: d.rest
-                              ? AppColors.faint
-                              : null,
+                        style: (d.rest ? AppText.small : AppText.body).copyWith(
+                          color: d.rest ? AppColors.faint : null,
                         ),
                       ),
                     ),
                     if (isToday)
-                      Text('TODAY',
-                          style: AppText.navLabel.copyWith(
-                            color: AppColors.yellow,
-                            fontWeight: FontWeight.w800,
-                          )),
+                      Text(
+                        'TODAY',
+                        style: AppText.navLabel.copyWith(
+                          color: AppColors.yellow,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
                   ],
                 ),
               );

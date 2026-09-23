@@ -24,15 +24,16 @@ class TrackRow extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final player = ref.watch(gymPlayerProvider);
-    final liked =
-        ref.watch(likedTracksProvider).containsKey(track.id);
-    final isCurrent = player.current?.id == track.id &&
-        player.queue.length == tracks.length;
+    final liked = ref.watch(likedTracksProvider).containsKey(track.id);
+    final isCurrent =
+        player.current?.id == track.id && player.queue.length == tracks.length;
     return Card(
       margin: const EdgeInsets.only(bottom: AppSpace.m),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(
-            horizontal: AppSpace.m, vertical: AppSpace.xs),
+          horizontal: AppSpace.m,
+          vertical: AppSpace.xs,
+        ),
         leading: Stack(
           alignment: Alignment.center,
           children: [
@@ -47,8 +48,10 @@ class TrackRow extends ConsumerWidget {
                   width: AppSizes.trackArt,
                   height: AppSizes.trackArt,
                   color: AppColors.surface,
-                  child: const Icon(AppIcons.musicNote,
-                      color: AppColors.yellow),
+                  child: const Icon(
+                    AppIcons.musicNote,
+                    color: AppColors.yellow,
+                  ),
                 ),
               ),
             ),
@@ -60,28 +63,30 @@ class TrackRow extends ConsumerWidget {
                   color: Colors.black54,
                   borderRadius: BorderRadius.circular(AppRadius.m),
                 ),
-                child: const Icon(AppIcons.liveEq,
-                    color: AppColors.yellow, size: AppIcon.list),
+                child: const Icon(
+                  AppIcons.liveEq,
+                  color: AppColors.yellow,
+                  size: AppIcon.list,
+                ),
               ),
           ],
         ),
-        title: Text(track.title,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: AppText.title.copyWith(
-              fontSize: 15,
-              color: isCurrent
-                  ? AppColors.yellow
-                  : AppColors.white,
-            )),
+        title: Text(
+          track.title,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: AppText.title.copyWith(
+            color: isCurrent ? AppColors.yellow : AppColors.white,
+          ),
+        ),
         subtitle: Padding(
           padding: const EdgeInsets.only(top: AppSpace.xs / 2),
           child: Text(
-              track.artist +
-                  (track.isMix ? ' · DJ Mix' : ''),
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: AppText.small),
+            track.artist + (track.isMix ? ' · DJ Mix' : ''),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: AppText.small,
+          ),
         ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
@@ -89,33 +94,28 @@ class TrackRow extends ConsumerWidget {
             IconButton(
               tooltip: liked ? 'Unlike' : 'Like',
               icon: Icon(
-                liked
-                    ? AppIcons.heart
-                    : AppIcons.heartOut,
-                color: liked
-                    ? AppColors.red
-                    : AppColors.faint,
+                liked ? AppIcons.heart : AppIcons.heartOut,
+                color: liked ? AppColors.red : AppColors.faint,
                 size: AppIcon.list,
               ),
               onPressed: () {
-                final nowLiked =
-                    toggleLike(ref, track);
+                final nowLiked = toggleLike(ref, track);
                 ScaffoldMessenger.of(context)
                   ..hideCurrentSnackBar()
                   ..showSnackBar(
                     SnackBar(
-                      content: Text(nowLiked
-                          ? 'Added to Liked songs'
-                          : 'Removed from Liked songs'),
-                      duration:
-                          const Duration(seconds: 1),
+                      content: Text(
+                        nowLiked
+                            ? 'Added to Liked songs'
+                            : 'Removed from Liked songs',
+                      ),
+                      duration: const Duration(seconds: 1),
                     ),
                   );
               },
             ),
             IconButton(
-              tooltip:
-                  isCurrent && player.playing ? 'Pause' : 'Play',
+              tooltip: isCurrent && player.playing ? 'Pause' : 'Play',
               icon: Icon(
                 isCurrent && player.playing
                     ? AppIcons.pauseFill
@@ -123,10 +123,13 @@ class TrackRow extends ConsumerWidget {
                 color: AppColors.yellow,
                 size: AppSizes.mediaTile,
               ),
-              onPressed: () => _play(ref, context,
-                  isCurrent: isCurrent,
-                  tracks: tracks,
-                  index: index),
+              onPressed: () => _play(
+                ref,
+                context,
+                isCurrent: isCurrent,
+                tracks: tracks,
+                index: index,
+              ),
             ),
           ],
         ),
@@ -134,10 +137,7 @@ class TrackRow extends ConsumerWidget {
           if (isCurrent) {
             openPlayerSheet(context);
           } else {
-            _play(ref, context,
-                isCurrent: false,
-                tracks: tracks,
-                index: index);
+            _play(ref, context, isCurrent: false, tracks: tracks, index: index);
           }
         },
       ),

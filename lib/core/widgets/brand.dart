@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../constants/app_constants.dart';
 import '../theme/app_theme.dart';
 import '../theme/app_icons.dart';
 import '../theme/tokens.dart';
@@ -88,8 +89,7 @@ class InitialAvatar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final initial =
-        name.trim().isEmpty ? '?' : name.trim()[0].toUpperCase();
+    final initial = name.trim().isEmpty ? '?' : name.trim()[0].toUpperCase();
     return Container(
       width: radius * 2,
       height: radius * 2,
@@ -104,6 +104,49 @@ class InitialAvatar extends StatelessWidget {
           color: AppColors.black,
           fontSize: radius * 0.85,
         ),
+      ),
+    );
+  }
+}
+
+/// Small, consistent app credit shown on the public entry screen and profile.
+class DeveloperCredit extends StatelessWidget {
+  const DeveloperCredit({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Semantics(
+      label:
+          'Developed by ${AppConstants.developerName}, ${AppConstants.developerUrl}',
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text.rich(
+            TextSpan(
+              children: [
+                const TextSpan(text: 'Developed by '),
+                TextSpan(
+                  text: AppConstants.developerName,
+                  style: AppText.label.copyWith(color: AppColors.yellow),
+                ),
+              ],
+            ),
+            textAlign: TextAlign.center,
+            style: AppText.tiny,
+          ),
+          const SizedBox(height: AppSpace.xs / 2),
+          Text(
+            AppConstants.developerUrl,
+            textAlign: TextAlign.center,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: AppText.tiny.copyWith(
+              color: AppColors.grey,
+              decoration: TextDecoration.underline,
+              decorationColor: AppColors.faint,
+            ),
+          ),
+        ],
       ),
     );
   }

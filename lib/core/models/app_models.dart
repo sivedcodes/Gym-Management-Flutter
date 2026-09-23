@@ -32,8 +32,7 @@ class AppUser {
     this.splitId,
   });
 
-  bool get hasSlot =>
-      slotSession != null && slotFrom != null && slotTo != null;
+  bool get hasSlot => slotSession != null && slotFrom != null && slotTo != null;
 
   /// Profile is complete when phone + body stats exist (owner: phone only).
   bool get hasProfile =>
@@ -49,11 +48,27 @@ class AppUser {
   }
 
   static String bmiCategory(double bmi) => switch (bmi) {
-        < 18.5 => 'Underweight',
-        < 25 => 'Normal',
-        < 30 => 'Overweight',
-        _ => 'Obese',
-      };
+    < 18.5 => 'Underweight',
+    < 25 => 'Normal',
+    < 30 => 'Overweight',
+    _ => 'Obese',
+  };
+
+  /// Height display in feet/inches (input unit), e.g. `5 ft 9 in`.
+  String get heightLabel {
+    if (heightCm == null) return '—';
+    final totalIn = (heightCm! / 2.54).round();
+    return '${totalIn ~/ 12} ft ${totalIn % 12} in';
+  }
+
+  /// Feet/inches → cm (setup screen input conversion).
+  static double ftInToCm(int ft, int inch) => (ft * 12 + inch) * 2.54;
+
+  /// cm → [feet, inches] for prefilling the setup form.
+  static List<int> cmToFtIn(double cm) {
+    final totalIn = (cm / 2.54).round();
+    return [totalIn ~/ 12, totalIn % 12];
+  }
 
   String get slotLabel {
     if (!hasSlot) return 'Not set';
@@ -79,22 +94,21 @@ class AppUser {
     String? goal,
     double? targetKg,
     String? splitId,
-  }) =>
-      AppUser(
-        uid: uid,
-        name: name ?? this.name,
-        email: email ?? this.email,
-        phone: phone ?? this.phone,
-        role: role ?? this.role,
-        slotSession: slotSession ?? this.slotSession,
-        slotFrom: slotFrom ?? this.slotFrom,
-        slotTo: slotTo ?? this.slotTo,
-        weightKg: weightKg ?? this.weightKg,
-        heightCm: heightCm ?? this.heightCm,
-        goal: goal ?? this.goal,
-        targetKg: targetKg ?? this.targetKg,
-        splitId: splitId ?? this.splitId,
-      );
+  }) => AppUser(
+    uid: uid,
+    name: name ?? this.name,
+    email: email ?? this.email,
+    phone: phone ?? this.phone,
+    role: role ?? this.role,
+    slotSession: slotSession ?? this.slotSession,
+    slotFrom: slotFrom ?? this.slotFrom,
+    slotTo: slotTo ?? this.slotTo,
+    weightKg: weightKg ?? this.weightKg,
+    heightCm: heightCm ?? this.heightCm,
+    goal: goal ?? this.goal,
+    targetKg: targetKg ?? this.targetKg,
+    splitId: splitId ?? this.splitId,
+  );
 }
 
 /// One day inside a workout split.
@@ -102,8 +116,7 @@ class SplitDay {
   final String day; // Mon..Sun
   final String focus; // e.g. Push – Chest/Shoulders/Triceps
   final bool rest;
-  const SplitDay(
-      {required this.day, required this.focus, this.rest = false});
+  const SplitDay({required this.day, required this.focus, this.rest = false});
 }
 
 /// Weekly workout split (Push Pull Legs, Bro Split…).
@@ -133,15 +146,14 @@ class WorkoutSplit {
     String? level,
     List<SplitDay>? days,
     bool? active,
-  }) =>
-      WorkoutSplit(
-        id: id,
-        name: name ?? this.name,
-        desc: desc ?? this.desc,
-        level: level ?? this.level,
-        days: days ?? this.days,
-        active: active ?? this.active,
-      );
+  }) => WorkoutSplit(
+    id: id,
+    name: name ?? this.name,
+    desc: desc ?? this.desc,
+    level: level ?? this.level,
+    days: days ?? this.days,
+    active: active ?? this.active,
+  );
 }
 
 class GymPlan {
@@ -160,15 +172,20 @@ class GymPlan {
     this.active = true,
   });
 
-  GymPlan copyWith({String? name, int? price, int? durationDays, String? desc, bool? active}) =>
-      GymPlan(
-        id: id,
-        name: name ?? this.name,
-        price: price ?? this.price,
-        durationDays: durationDays ?? this.durationDays,
-        desc: desc ?? this.desc,
-        active: active ?? this.active,
-      );
+  GymPlan copyWith({
+    String? name,
+    int? price,
+    int? durationDays,
+    String? desc,
+    bool? active,
+  }) => GymPlan(
+    id: id,
+    name: name ?? this.name,
+    price: price ?? this.price,
+    durationDays: durationDays ?? this.durationDays,
+    desc: desc ?? this.desc,
+    active: active ?? this.active,
+  );
 }
 
 class Registration {
@@ -231,7 +248,12 @@ class GymNotice {
   final String title;
   final String body;
   final DateTime at;
-  const GymNotice({required this.id, required this.title, required this.body, required this.at});
+  const GymNotice({
+    required this.id,
+    required this.title,
+    required this.body,
+    required this.at,
+  });
 }
 
 /// Dynamic add-on catalog: training, diet, or ANY owner-created kind.
@@ -261,20 +283,25 @@ class ServiceItem {
   bool get isFree => price <= 0;
 
   ServiceItem copyWith({
-    String? kind, String? title, String? goal, int? price,
-    int? durationDays, String? level, String? desc, bool? active,
-  }) =>
-      ServiceItem(
-        id: id,
-        kind: kind ?? this.kind,
-        title: title ?? this.title,
-        goal: goal ?? this.goal,
-        price: price ?? this.price,
-        durationDays: durationDays ?? this.durationDays,
-        level: level ?? this.level,
-        desc: desc ?? this.desc,
-        active: active ?? this.active,
-      );
+    String? kind,
+    String? title,
+    String? goal,
+    int? price,
+    int? durationDays,
+    String? level,
+    String? desc,
+    bool? active,
+  }) => ServiceItem(
+    id: id,
+    kind: kind ?? this.kind,
+    title: title ?? this.title,
+    goal: goal ?? this.goal,
+    price: price ?? this.price,
+    durationDays: durationDays ?? this.durationDays,
+    level: level ?? this.level,
+    desc: desc ?? this.desc,
+    active: active ?? this.active,
+  );
 }
 
 /// Member request for a service. Approved → active program window.

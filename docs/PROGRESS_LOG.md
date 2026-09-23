@@ -1,0 +1,1 @@
+2026-09-24 | F16 | Completed ft/in setup inputs and BMI conversion, reduced centralized UI typography, replaced web favicon/PWA icons, added sived.codes credit, and updated flow/unit tests. | User hard-refresh verification at http://localhost:8080 | None

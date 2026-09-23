@@ -24,12 +24,7 @@ class MusicScreen extends ConsumerStatefulWidget {
 }
 
 class _MusicScreenState extends ConsumerState<MusicScreen> {
-  static const _filterLabels = [
-    'Songs',
-    'Playlists',
-    'Albums',
-    'Liked'
-  ];
+  static const _filterLabels = ['Songs', 'Playlists', 'Albums', 'Liked'];
   int _mode = 0; // 0 songs · 1 playlists · 2 albums
   int _mood = 0;
   String _query = '';
@@ -90,8 +85,7 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
         actions: [
           Consumer(
             builder: (context, ref, child) {
-              final n =
-                  ref.watch(likedTracksProvider).length;
+              final n = ref.watch(likedTracksProvider).length;
               return Badge(
                 label: Text('$n'),
                 isLabelVisible: n > 0,
@@ -114,19 +108,14 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
             tooltip: 'Browse',
             color: AppColors.card,
             shape: RoundedRectangleBorder(
-              borderRadius:
-                  BorderRadius.circular(AppRadius.l),
-              side:
-                  const BorderSide(color: AppColors.line),
+              borderRadius: BorderRadius.circular(AppRadius.l),
+              side: const BorderSide(color: AppColors.line),
             ),
             onSelected: (i) => _pickMode(i),
             itemBuilder: (_) => [
-              _browseMenuItem(
-                  0, AppIcons.songs, 'Songs'),
-              _browseMenuItem(
-                  1, AppIcons.queue, 'Playlists'),
-              _browseMenuItem(
-                  2, AppIcons.album, 'Albums'),
+              _browseMenuItem(0, AppIcons.songs, 'Songs'),
+              _browseMenuItem(1, AppIcons.queue, 'Playlists'),
+              _browseMenuItem(2, AppIcons.album, 'Albums'),
             ],
           ),
           IconButton(
@@ -145,17 +134,13 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
                 controller: _searchCtrl,
                 textInputAction: TextInputAction.search,
                 decoration: InputDecoration(
-                  hintText:
-                      'Search songs, playlists, artists…',
-                  prefixIcon:
-                      const Icon(AppIcons.search),
-                  suffixIcon: _query.isEmpty &&
-                          _searchCtrl.text.isEmpty
+                  hintText: 'Search songs, playlists, artists…',
+                  prefixIcon: const Icon(AppIcons.search),
+                  suffixIcon: _query.isEmpty && _searchCtrl.text.isEmpty
                       ? null
                       : IconButton(
                           tooltip: 'Clear',
-                          icon: const Icon(AppIcons.close,
-                              size: AppIcon.sm),
+                          icon: const Icon(AppIcons.close, size: AppIcon.sm),
                           onPressed: () {
                             _searchCtrl.clear();
                             setState(() {
@@ -177,7 +162,11 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(
-                  AppSpace.l, AppSpace.s, AppSpace.l, 0),
+                AppSpace.l,
+                AppSpace.s,
+                AppSpace.l,
+                0,
+              ),
               child: _query.isEmpty
                   ? SizedBox(
                       height: 40,
@@ -187,9 +176,8 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
                         itemCount: gymMoods.length,
                         itemBuilder: (_, i) => Padding(
                           padding: EdgeInsets.only(
-                              right: i == gymMoods.length - 1
-                                  ? 0
-                                  : AppSpace.s),
+                            right: i == gymMoods.length - 1 ? 0 : AppSpace.s,
+                          ),
                           child: AppChoice(
                             gymMoods[i].label,
                             _mode == 0 && _mood == i,
@@ -197,12 +185,10 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
                               setState(() {
                                 _mode = 0;
                                 _mood = i;
-                                _tracksFuture = fetchTracks(
-                                    gymMoods[i].term);
+                                _tracksFuture = fetchTracks(gymMoods[i].term);
                               });
                             },
-                            icon:
-                                _moodIcon(gymMoods[i].label),
+                            icon: _moodIcon(gymMoods[i].label),
                           ),
                         ),
                       ),
@@ -210,25 +196,21 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
                   : SizedBox(
                       height: 40,
                       child: ListView(
-                        scrollDirection:
-                            Axis.horizontal,
+                        scrollDirection: Axis.horizontal,
                         padding: EdgeInsets.zero,
                         children: [
-                          for (var i = 0;
-                              i < _filterLabels.length;
-                              i++)
+                          for (var i = 0; i < _filterLabels.length; i++)
                             Padding(
                               padding: EdgeInsets.only(
-                                  right: i ==
-                                          _filterLabels
-                                                  .length -
-                                              1
-                                      ? 0
-                                      : AppSpace.s),
+                                right: i == _filterLabels.length - 1
+                                    ? 0
+                                    : AppSpace.s,
+                              ),
                               child: AppChoice(
-                                  _filterLabels[i],
-                                  _mode == i,
-                                  () => _pickMode(i)),
+                                _filterLabels[i],
+                                _mode == i,
+                                () => _pickMode(i),
+                              ),
                             ),
                         ],
                       ),
@@ -240,18 +222,14 @@ class _MusicScreenState extends ConsumerState<MusicScreen> {
                 child: _mode == 0
                     ? _TracksBody(
                         future: _tracksFuture,
-                        onRetry: () =>
-                            setState(() => _reload()),
+                        onRetry: () => setState(() => _reload()),
                       )
                     : _mode == 3
-                        ? const _LikedBody()
-                        : _CollectionsBody(
+                    ? const _LikedBody()
+                    : _CollectionsBody(
                         future: _collectionsFuture!,
-                        kind: _mode == 1
-                            ? 'playlist'
-                            : 'album',
-                        onRetry: () =>
-                            setState(() => _reload()),
+                        kind: _mode == 1 ? 'playlist' : 'album',
+                        onRetry: () => setState(() => _reload()),
                       ),
               ),
             ),
@@ -289,9 +267,7 @@ class _TracksBody extends StatelessWidget {
         }
         final tracks = snap.data!;
         if (tracks.isEmpty) {
-          return Center(
-              child: Text('No tracks found.',
-                  style: AppText.small));
+          return Center(child: Text('No tracks found.', style: AppText.small));
         }
         return ListView.builder(
           shrinkWrap: true,
@@ -301,10 +277,8 @@ class _TracksBody extends StatelessWidget {
           itemBuilder: (_, i) {
             final t = tracks[i];
             return FadeSlideIn(
-              delay:
-                  Duration(milliseconds: (i * 40).clamp(0, 400)),
-              child: TrackRow(
-                  track: t, index: i, tracks: tracks),
+              delay: Duration(milliseconds: (i * 40).clamp(0, 400)),
+              child: TrackRow(track: t, index: i, tracks: tracks),
             );
           },
         );
@@ -317,10 +291,11 @@ class _CollectionsBody extends StatelessWidget {
   final Future<List<MusicCollection>> future;
   final String kind;
   final VoidCallback onRetry;
-  const _CollectionsBody(
-      {required this.future,
-      required this.kind,
-      required this.onRetry});
+  const _CollectionsBody({
+    required this.future,
+    required this.kind,
+    required this.onRetry,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -344,9 +319,7 @@ class _CollectionsBody extends StatelessWidget {
         }
         final items = snap.data!;
         if (items.isEmpty) {
-          return Center(
-              child: Text('Nothing found.',
-                  style: AppText.small));
+          return Center(child: Text('Nothing found.', style: AppText.small));
         }
         return ListView.builder(
           shrinkWrap: true,
@@ -356,26 +329,22 @@ class _CollectionsBody extends StatelessWidget {
           itemBuilder: (_, i) {
             final c = items[i];
             return FadeSlideIn(
-              delay:
-                  Duration(milliseconds: (i * 40).clamp(0, 400)),
+              delay: Duration(milliseconds: (i * 40).clamp(0, 400)),
               child: Card(
-                margin: const EdgeInsets.only(
-                    bottom: AppSpace.m),
+                margin: const EdgeInsets.only(bottom: AppSpace.m),
                 child: ListTile(
-                  contentPadding:
-                      const EdgeInsets.symmetric(
-                          horizontal: AppSpace.m,
-                          vertical: AppSpace.xs),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: AppSpace.m,
+                    vertical: AppSpace.xs,
+                  ),
                   leading: ClipRRect(
-                    borderRadius: BorderRadius.circular(
-                        AppRadius.m),
+                    borderRadius: BorderRadius.circular(AppRadius.m),
                     child: Image.network(
                       c.artwork,
                       width: AppSizes.trackArt,
                       height: AppSizes.trackArt,
                       fit: BoxFit.cover,
-                      errorBuilder: (ctx, err, stack) =>
-                          Container(
+                      errorBuilder: (ctx, err, stack) => Container(
                         width: AppSizes.trackArt,
                         height: AppSizes.trackArt,
                         color: AppColors.surface,
@@ -388,11 +357,12 @@ class _CollectionsBody extends StatelessWidget {
                       ),
                     ),
                   ),
-                  title: Text(c.name,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppText.title.copyWith(
-                          fontSize: 15)),
+                  title: Text(
+                    c.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppText.title,
+                  ),
                   subtitle: Text(
                     c.artist.isEmpty
                         ? '${c.trackCount} songs'
@@ -401,10 +371,10 @@ class _CollectionsBody extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     style: AppText.small,
                   ),
-                  trailing: const Icon(AppIcons.next,
-                      color: AppColors.grey),
+                  trailing: const Icon(AppIcons.next, color: AppColors.grey),
                   onTap: () => context.push(
-                      '/music/collection?kind=${c.kind}&id=${c.id}'),
+                    '/music/collection?kind=${c.kind}&id=${c.id}',
+                  ),
                 ),
               ),
             );
@@ -428,11 +398,13 @@ class _LikedBody extends ConsumerWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const IconTile(AppIcons.heartOut,
-                color: AppColors.faint, size: AppIcon.hero),
+            const IconTile(
+              AppIcons.heartOut,
+              color: AppColors.faint,
+              size: AppIcon.hero,
+            ),
             const SizedBox(height: AppSpace.m),
-            Text('No likes yet',
-                style: AppText.head.copyWith(fontSize: 17)),
+            Text('No likes yet', style: AppText.head),
             const SizedBox(height: AppSpace.xs),
             Text(
               'Tap the heart on any song and it lands here.',
@@ -452,8 +424,7 @@ class _LikedBody extends ConsumerWidget {
         final t = liked[i];
         return FadeSlideIn(
           delay: Duration(milliseconds: (i * 40).clamp(0, 400)),
-          child:
-              TrackRow(track: t, index: i, tracks: liked),
+          child: TrackRow(track: t, index: i, tracks: liked),
         );
       },
     );
@@ -472,8 +443,11 @@ class _ErrorState extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const IconTile(AppIcons.offline,
-                color: AppColors.faint, size: AppIcon.hero),
+            const IconTile(
+              AppIcons.offline,
+              color: AppColors.faint,
+              size: AppIcon.hero,
+            ),
             const SizedBox(height: AppSpace.m),
             Text(
               'Music is offline right now.\nCheck internet and retry.',
@@ -483,8 +457,7 @@ class _ErrorState extends StatelessWidget {
             const SizedBox(height: AppSpace.m),
             OutlinedButton.icon(
               onPressed: onRetry,
-              icon: const Icon(AppIcons.refresh,
-                  size: AppIcon.sm),
+              icon: const Icon(AppIcons.refresh, size: AppIcon.sm),
               label: const Text('Retry'),
             ),
           ],
@@ -495,23 +468,22 @@ class _ErrorState extends StatelessWidget {
 }
 
 IconData _moodIcon(String label) => switch (label) {
-      'Workout' => AppIcons.bolt,
-      'Cardio' => AppIcons.heart,
-      'Running' => AppIcons.cardio,
-      'Motivation' => AppIcons.fire,
-      'HIIT' => AppIcons.timer,
-      _ => AppIcons.yoga,
-    };
+  'Workout' => AppIcons.bolt,
+  'Cardio' => AppIcons.heart,
+  'Running' => AppIcons.cardio,
+  'Motivation' => AppIcons.fire,
+  'HIIT' => AppIcons.timer,
+  _ => AppIcons.yoga,
+};
 
-PopupMenuItem<int> _browseMenuItem(
-    int value, IconData icon, String label) {
+PopupMenuItem<int> _browseMenuItem(int value, IconData icon, String label) {
   return PopupMenuItem<int>(
     value: value,
     child: Row(
       children: [
         Icon(icon, size: AppIcon.btn, color: AppColors.yellow),
         const SizedBox(width: AppSpace.m),
-        Text(label, style: AppText.title.copyWith(fontSize: 15)),
+        Text(label, style: AppText.title),
       ],
     ),
   );

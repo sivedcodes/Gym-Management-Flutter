@@ -1,11 +1,13 @@
 {
     "name": "Total Fit Gym",
     "short_name": "Total Fit Gym",
+    "author": "sived.codes",
+    "homepage_url": "https://sived-codes.web.app/",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0A0A0A",
     "theme_color": "#FFC400",
-    "description": "Total Fit Gym — gym membership management (Android + Web).",
+    "description": "Total Fit Gym — gym membership management (Android + Web). Developed by sived.codes.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

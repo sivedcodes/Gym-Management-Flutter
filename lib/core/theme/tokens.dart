@@ -43,8 +43,7 @@ abstract final class AppSpace {
   static const EdgeInsets navBar = EdgeInsets.fromLTRB(l, xs, l, m);
 
   /// Mini player card margin (sits above the bottom nav).
-  static const EdgeInsets miniPlayer =
-      EdgeInsets.fromLTRB(m, xxs, m, cardGap);
+  static const EdgeInsets miniPlayer = EdgeInsets.fromLTRB(m, xxs, m, cardGap);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -54,96 +53,89 @@ abstract final class AppSpace {
 // ─────────────────────────────────────────────────────────────────────────────
 abstract final class AppText {
   // ── Display tier (heroes, marketing) ──
-  /// 28px / w800 — main hero title (splash wordmark, large plan price).
+  /// 24px / w800 — main hero title (splash wordmark, large plan price).
   static TextStyle get display => GoogleFonts.sora(
-        fontSize: 28,
-        fontWeight: FontWeight.w800,
-        letterSpacing: -0.5,
-        color: AppColors.white,
-      );
+    fontSize: 24,
+    fontWeight: FontWeight.w800,
+    letterSpacing: -0.5,
+    color: AppColors.white,
+  );
 
-  /// 22px / w800 — sub-hero title (plan name on register/book screens).
+  /// 20px / w800 — sub-hero title (plan name on register/book screens).
   static TextStyle get displaySm => GoogleFonts.sora(
-        fontSize: 22,
-        fontWeight: FontWeight.w800,
-        letterSpacing: -0.3,
-        color: AppColors.white,
-      );
+    fontSize: 20,
+    fontWeight: FontWeight.w800,
+    letterSpacing: -0.3,
+    color: AppColors.white,
+  );
 
   // ── Heading tier (section identity, stat values) ──
-  /// 18px / w700 — section headings, large stat numbers.
+  /// 16px / w700 — section headings, large stat numbers.
   static TextStyle get head => GoogleFonts.sora(
-        fontSize: 18,
-        fontWeight: FontWeight.w700,
-        color: AppColors.white,
-      );
+    fontSize: 16,
+    fontWeight: FontWeight.w700,
+    color: AppColors.white,
+  );
 
   // ── Title tier (card titles, list item titles) ──
-  /// 15px / w700 — card and list item titles.
+  /// 14px / w700 — card and list item titles.
   static TextStyle get title => GoogleFonts.sora(
-        fontSize: 15,
-        fontWeight: FontWeight.w700,
-        color: AppColors.white,
-      );
+    fontSize: 14,
+    fontWeight: FontWeight.w700,
+    color: AppColors.white,
+  );
 
   // ── Body tier (content, descriptions) ──
-  /// 14px / regular — body content, form help text.
-  static TextStyle get body => GoogleFonts.inter(
-        fontSize: 14,
-        color: AppColors.white,
-        height: 1.45,
-      );
+  /// 13px / regular — body content, form help text.
+  static TextStyle get body =>
+      GoogleFonts.inter(fontSize: 13, color: AppColors.white, height: 1.45);
 
   // ── Small / Metadata tier ──
-  /// 13px / regular — subtitles, metadata, secondary info.
-  static TextStyle get small => GoogleFonts.inter(
-        fontSize: 13,
-        color: AppColors.grey,
-      );
+  /// 12px / regular — subtitles, metadata, secondary info.
+  static TextStyle get small =>
+      GoogleFonts.inter(fontSize: 12, color: AppColors.grey);
 
-  /// 12px / regular — captions, dates, timestamps.
-  static TextStyle get tiny => GoogleFonts.inter(
-        fontSize: 12,
-        color: AppColors.faint,
-      );
+  /// 11px / regular — captions, dates, timestamps.
+  static TextStyle get tiny =>
+      GoogleFonts.inter(fontSize: 11, color: AppColors.faint);
 
   // ── Label / Eyebrow tier (uppercase labels) ──
-  /// 11px / w700 / uppercase spacing — category eyebrows.
+  /// 10px / w700 / uppercase spacing — category eyebrows.
   static TextStyle get eyebrow => GoogleFonts.inter(
-        fontSize: 11,
-        fontWeight: FontWeight.w700,
-        letterSpacing: 1.2,
-        color: AppColors.faint,
-      );
+    fontSize: 10,
+    fontWeight: FontWeight.w700,
+    letterSpacing: 1.2,
+    color: AppColors.faint,
+  );
 
   // ── Specialised ──
-  /// 18px / w800 / yellow — price display (plan cards, booking).
+  /// 16px / w800 / yellow — price display (plan cards, booking).
   static TextStyle get price => GoogleFonts.sora(
-        fontSize: 18,
-        fontWeight: FontWeight.w800,
-        color: AppColors.yellow,
-      );
+    fontSize: 16,
+    fontWeight: FontWeight.w800,
+    color: AppColors.yellow,
+  );
 
-  /// 12px / w700 — compact badge-like label (e.g. FREE, POPULAR).
+  /// 11px / w700 — compact badge-like label (e.g. FREE, POPULAR).
   static TextStyle get label => GoogleFonts.inter(
-        fontSize: 12,
-        fontWeight: FontWeight.w700,
-        color: AppColors.white,
-      );
+    fontSize: 11,
+    fontWeight: FontWeight.w700,
+    color: AppColors.white,
+  );
 
-  /// 13px / w700 — filter chip label (color set by selected state).
+  /// 12px / w700 — filter chip label (color set by selected state).
   static TextStyle get chip => GoogleFonts.inter(
-        fontSize: 13,
-        fontWeight: FontWeight.w700,
-        color: AppColors.grey,
-      );
+    fontSize: 12,
+    fontWeight: FontWeight.w700,
+    color: AppColors.grey,
+  );
 
-  /// 10.5px / w600 — bottom-nav labels (color set by selected state).
+  /// 10px / w600 — bottom-nav labels (color set by selected state).
   static TextStyle get navLabel => GoogleFonts.inter(
-        fontSize: 10.5,
-        fontWeight: FontWeight.w600,
-        color: AppColors.faint,
-      );
+    fontSize: 10,
+    fontWeight: FontWeight.w600,
+    color: AppColors.faint,
+  );
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -213,24 +205,32 @@ abstract final class AppSizes {
   // ── One-off artwork / brand geometry (named, single-use) ──
   /// Empty-state illustration tile.
   static const double artEmpty = 72;
+
   /// Full-player artwork.
   static const double playerArt = 240;
+
   /// Collection header artwork (playlist/album detail).
   static const double collectionArt = 84;
+
   /// Owner app-bar brand mark box.
   static const double brandMark = 30;
+
   /// Join-screen hero QR tile.
   static const double heroTile = 88;
 
   // ── Repeated component geometry (named, not magic) ──
   /// Google "G" badge on the sign-in button.
   static const double googleMark = 26;
+
   /// Join-flow step node circle.
   static const double stepDot = 26;
+
   /// Status dot inside StatusChip.
   static const double dot = 6;
+
   /// Music track artwork (list tiles).
   static const double trackArt = 56;
+
   /// Mini-player artwork thumb.
   static const double miniArt = 40;
 }
@@ -246,7 +246,8 @@ BoxDecoration appCardDeco({Color? border, List<Color>? gradient}) =>
           ? LinearGradient(
               colors: gradient,
               begin: Alignment.topLeft,
-              end: Alignment.bottomRight)
+              end: Alignment.bottomRight,
+            )
           : null,
       borderRadius: BorderRadius.circular(AppRadius.l),
       border: Border.all(color: border ?? AppColors.line),
@@ -255,10 +256,10 @@ BoxDecoration appCardDeco({Color? border, List<Color>? gradient}) =>
 /// Yellow-card hero box decoration (profile, register, book, music header).
 /// Same corner radius as regular cards — one roundness everywhere.
 BoxDecoration get heroCardDeco => BoxDecoration(
-      gradient: AppGradients.yellowCard,
-      borderRadius: BorderRadius.circular(AppRadius.l),
-      border: Border.all(color: AppColors.yellow.withValues(alpha: 0.4)),
-    );
+  gradient: AppGradients.yellowCard,
+  borderRadius: BorderRadius.circular(AppRadius.l),
+  border: Border.all(color: AppColors.yellow.withValues(alpha: 0.4)),
+);
 
 // ─────────────────────────────────────────────────────────────────────────────
 // ICON SIZES
@@ -269,12 +270,16 @@ abstract final class AppIcon {
   static const double tile = 44;
   static const double btn = 20;
   static const double hero = 56;
+
   /// Small inline icons (ticket stubs, compact buttons).
   static const double sm = 18;
+
   /// Inline meta icons (phone rows, links).
   static const double xs = 14;
+
   /// Large hero tiles (music header, section art).
   static const double lg = 48;
+
   /// Bottom-nav glyphs (optical size for glow treatment).
   static const double nav = 25;
 }

@@ -73,12 +73,18 @@ class LoginScreen extends ConsumerWidget {
                         foregroundColor: Colors.black87,
                       ),
                       onPressed: () => mockGoogleLogin(ref),
-                      child: const Row(
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          GoogleMark(),
-                          SizedBox(width: AppSpace.m),
-                          Text('Continue with Google'),
+                          const GoogleMark(),
+                          const SizedBox(width: AppSpace.m),
+                          Flexible(
+                            child: Text(
+                              'Continue with Google',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -89,8 +95,7 @@ class LoginScreen extends ConsumerWidget {
                   delay: const Duration(milliseconds: 380),
                   child: OutlinedButton.icon(
                     onPressed: () => context.go('/join?gym=demo-gym'),
-                    icon: const Icon(AppIcons.qrScan,
-                        size: AppIcon.btn),
+                    icon: const Icon(AppIcons.qrScan, size: AppIcon.btn),
                     label: const Text('I have a QR / join link'),
                   ),
                 ),
@@ -102,14 +107,16 @@ class LoginScreen extends ConsumerWidget {
                     child: ExpansionTile(
                       tilePadding: AppSpace.card,
                       childrenPadding: const EdgeInsets.only(
-                          left: AppSpace.l,
-                          right: AppSpace.l,
-                          bottom: AppSpace.l),
-                      leading: const Icon(AppIcons.demo,
-                          size: AppIcon.btn,
-                          color: AppColors.grey),
-                      title: Text('DEMO CONSOLE',
-                          style: AppText.eyebrow),
+                        left: AppSpace.l,
+                        right: AppSpace.l,
+                        bottom: AppSpace.l,
+                      ),
+                      leading: const Icon(
+                        AppIcons.demo,
+                        size: AppIcon.btn,
+                        color: AppColors.grey,
+                      ),
+                      title: Text('DEMO CONSOLE', style: AppText.eyebrow),
                       subtitle: Text(
                         'No backend needed yet — explore both roles:',
                         style: AppText.small,
@@ -119,8 +126,7 @@ class LoginScreen extends ConsumerWidget {
                           children: [
                             Expanded(
                               child: OutlinedButton.icon(
-                                onPressed: () =>
-                                    demoLogin(ref, 'u_active'),
+                                onPressed: () => demoLogin(ref, 'u_active'),
                                 icon: const Icon(
                                   AppIcons.profile,
                                   size: AppIcon.btn,
@@ -131,8 +137,7 @@ class LoginScreen extends ConsumerWidget {
                             const SizedBox(width: AppSpace.m),
                             Expanded(
                               child: OutlinedButton.icon(
-                                onPressed: () =>
-                                    demoLogin(ref, 'owner_1'),
+                                onPressed: () => demoLogin(ref, 'owner_1'),
                                 icon: const Icon(
                                   AppIcons.gym,
                                   size: AppIcon.btn,
@@ -146,6 +151,9 @@ class LoginScreen extends ConsumerWidget {
                     ),
                   ),
                 ),
+                const SizedBox(height: AppSpace.l),
+                const DeveloperCredit(),
+                const SizedBox(height: AppSpace.m),
               ],
             ),
           ),

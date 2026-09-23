@@ -28,8 +28,7 @@ class OwnerDashboardScreen extends ConsumerStatefulWidget {
       _OwnerDashboardScreenState();
 }
 
-class _OwnerDashboardScreenState
-    extends ConsumerState<OwnerDashboardScreen> {
+class _OwnerDashboardScreenState extends ConsumerState<OwnerDashboardScreen> {
   int _tab = 0;
   String _query = '';
   String _filter = 'all';
@@ -47,8 +46,7 @@ class _OwnerDashboardScreenState
         pendingCount: pending.length + db.pendingServiceReqs().length,
         expiringCount: members.where((m) => m.status != 'active').length,
         memberCount: members.length,
-        attention:
-            members.where((m) => m.status != 'active').take(5).toList(),
+        attention: members.where((m) => m.status != 'active').take(5).toList(),
         rush: db.rushByHour(),
         peak: db.peakHour(),
         rushTotal: db.membersWithSlot().length,
@@ -71,13 +69,7 @@ class _OwnerDashboardScreenState
       _PlansTab(onPlans: () => context.push('/plans')),
       _ServicesTab(onManage: () => context.push('/services')),
     ];
-    const titles = [
-      'Dashboard',
-      'Approvals',
-      'Members',
-      'Plans',
-      'Programs',
-    ];
+    const titles = ['Dashboard', 'Approvals', 'Members', 'Plans', 'Programs'];
 
     return Scaffold(
       appBar: AppBar(
@@ -90,8 +82,11 @@ class _OwnerDashboardScreenState
                 gradient: AppGradients.logo,
                 borderRadius: BorderRadius.circular(AppRadius.s),
               ),
-              child: const Icon(AppIcons.training,
-                  size: AppIcon.sm, color: AppColors.black),
+              child: const Icon(
+                AppIcons.training,
+                size: AppIcon.sm,
+                color: AppColors.black,
+              ),
             ),
             const SizedBox(width: AppSpace.s),
             Flexible(
@@ -129,37 +124,46 @@ class _OwnerDashboardScreenState
           children: [
             if (wide)
               Padding(
-                padding:
-                    const EdgeInsets.fromLTRB(AppSpace.l, AppSpace.s, AppSpace.l, 0),
+                padding: const EdgeInsets.fromLTRB(
+                  AppSpace.l,
+                  AppSpace.s,
+                  AppSpace.l,
+                  0,
+                ),
                 child: SegmentedButton<int>(
                   segments: const [
                     ButtonSegment(
-                        value: 0,
-                        icon: Icon(AppIcons.dashboard),
-                        label: Text('Home')),
+                      value: 0,
+                      icon: Icon(AppIcons.dashboard),
+                      label: Text('Home'),
+                    ),
                     ButtonSegment(
-                        value: 1,
-                        icon: Icon(AppIcons.pendingNav),
-                        label: Text('Pending')),
+                      value: 1,
+                      icon: Icon(AppIcons.pendingNav),
+                      label: Text('Pending'),
+                    ),
                     ButtonSegment(
-                        value: 2,
-                        icon: Icon(AppIcons.members),
-                        label: Text('Members')),
+                      value: 2,
+                      icon: Icon(AppIcons.members),
+                      label: Text('Members'),
+                    ),
                     ButtonSegment(
-                        value: 3,
-                        icon: Icon(AppIcons.membershipOut),
-                        label: Text('Plans')),
+                      value: 3,
+                      icon: Icon(AppIcons.membershipOut),
+                      label: Text('Plans'),
+                    ),
                     ButtonSegment(
-                        value: 4,
-                        icon: Icon(AppIcons.programs),
-                        label: Text('Programs')),
+                      value: 4,
+                      icon: Icon(AppIcons.programs),
+                      label: Text('Programs'),
+                    ),
                   ],
                   selected: {_tab},
-                  onSelectionChanged: (s) =>
-                      setState(() => _tab = s.first),
+                  onSelectionChanged: (s) => setState(() => _tab = s.first),
                   style: SegmentedButton.styleFrom(
-                    selectedBackgroundColor:
-                        AppColors.yellow.withValues(alpha: 0.15),
+                    selectedBackgroundColor: AppColors.yellow.withValues(
+                      alpha: 0.15,
+                    ),
                     selectedForegroundColor: AppColors.yellow,
                   ),
                 ),
@@ -175,9 +179,10 @@ class _OwnerDashboardScreenState
               onTap: (i) => setState(() => _tab = i),
               items: [
                 const GlowNavItem(
-                    icon: AppIcons.dashboard,
-                    activeIcon: AppIcons.dashboardActive,
-                    label: 'Home'),
+                  icon: AppIcons.dashboard,
+                  activeIcon: AppIcons.dashboardActive,
+                  label: 'Home',
+                ),
                 GlowNavItem(
                   icon: AppIcons.pendingNav,
                   activeIcon: AppIcons.pendingNavActive,
@@ -185,17 +190,20 @@ class _OwnerDashboardScreenState
                   badge: totalBadge,
                 ),
                 const GlowNavItem(
-                    icon: AppIcons.members,
-                    activeIcon: AppIcons.membersActive,
-                    label: 'Members'),
+                  icon: AppIcons.members,
+                  activeIcon: AppIcons.membersActive,
+                  label: 'Members',
+                ),
                 const GlowNavItem(
-                    icon: AppIcons.membershipOut,
-                    activeIcon: AppIcons.membership,
-                    label: 'Plans'),
+                  icon: AppIcons.membershipOut,
+                  activeIcon: AppIcons.membership,
+                  label: 'Plans',
+                ),
                 const GlowNavItem(
-                    icon: AppIcons.programs,
-                    activeIcon: AppIcons.training,
-                    label: 'Programs'),
+                  icon: AppIcons.programs,
+                  activeIcon: AppIcons.training,
+                  label: 'Programs',
+                ),
               ],
             ),
     );
@@ -204,10 +212,12 @@ class _OwnerDashboardScreenState
   List<Membership> _filteredMembers(List<Membership> members) {
     final q = _query.toLowerCase();
     return members.where((m) {
-      final okQ = m.userName.toLowerCase().contains(q) ||
+      final okQ =
+          m.userName.toLowerCase().contains(q) ||
           m.phone.contains(q) ||
           m.planName.toLowerCase().contains(q);
-      final okF = _filter == 'all' ||
+      final okF =
+          _filter == 'all' ||
           (_filter == 'attention' && m.status != 'active') ||
           (_filter == m.status);
       return okQ && okF;
@@ -290,7 +300,10 @@ class _OwnerDashboardScreenState
   }
 
   void _denyServiceDialog(
-      BuildContext context, WidgetRef ref, String bookingId) {
+    BuildContext context,
+    WidgetRef ref,
+    String bookingId,
+  ) {
     final ctrl = TextEditingController();
     showDialog(
       context: context,
@@ -315,9 +328,7 @@ class _OwnerDashboardScreenState
               foregroundColor: Colors.white,
             ),
             onPressed: () {
-              ref
-                  .read(fakeDbProvider)
-                  .denyService(bookingId, ctrl.text.trim());
+              ref.read(fakeDbProvider).denyService(bookingId, ctrl.text.trim());
               Navigator.pop(context);
             },
             child: const Text('Deny'),
@@ -389,8 +400,7 @@ class _HomeTab extends StatelessWidget {
           child: Card(
             margin: EdgeInsets.zero,
             child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: AppSpace.m),
+              padding: const EdgeInsets.symmetric(vertical: AppSpace.m),
               child: RushChart(counts: rush, peak: peak?.hour),
             ),
           ),
@@ -401,25 +411,39 @@ class _HomeTab extends StatelessWidget {
             Expanded(
               child: FadeSlideIn(
                 delay: const Duration(milliseconds: 140),
-                child: _Stat('Pending', '$pendingCount',
-                    AppColors.yellow, AppIcons.pendingNavActive,
-                    () => onTab(1)),
+                child: _Stat(
+                  'Pending',
+                  '$pendingCount',
+                  AppColors.yellow,
+                  AppIcons.pendingNavActive,
+                  () => onTab(1),
+                ),
               ),
             ),
             const SizedBox(width: AppSpace.cardGap),
             Expanded(
               child: FadeSlideIn(
                 delay: const Duration(milliseconds: 180),
-                child: _Stat('Expiring', '$expiringCount', AppColors.red,
-                    AppIcons.expired, () => onTab(2)),
+                child: _Stat(
+                  'Expiring',
+                  '$expiringCount',
+                  AppColors.red,
+                  AppIcons.expired,
+                  () => onTab(2),
+                ),
               ),
             ),
             const SizedBox(width: AppSpace.cardGap),
             Expanded(
               child: FadeSlideIn(
                 delay: const Duration(milliseconds: 220),
-                child: _Stat('Members', '$memberCount', AppColors.green,
-                    AppIcons.members, () => onTab(2)),
+                child: _Stat(
+                  'Members',
+                  '$memberCount',
+                  AppColors.green,
+                  AppIcons.members,
+                  () => onTab(2),
+                ),
               ),
             ),
           ],
@@ -429,13 +453,13 @@ class _HomeTab extends StatelessWidget {
           delay: const Duration(milliseconds: 260),
           child: Card(
             child: ListTile(
-              leading: const IconTile(AppIcons.qrShow,
-                  size: AppIcon.tile),
+              leading: const IconTile(AppIcons.qrShow, size: AppIcon.tile),
               title: Text('Registration QR', style: AppText.title),
-              subtitle: Text('Show at entrance for new joiners',
-                  style: AppText.small),
-              trailing: const Icon(AppIcons.next,
-                  color: AppColors.grey),
+              subtitle: Text(
+                'Show at entrance for new joiners',
+                style: AppText.small,
+              ),
+              trailing: const Icon(AppIcons.next, color: AppColors.grey),
               onTap: onQr,
             ),
           ),
@@ -453,21 +477,30 @@ class _HomeTab extends StatelessWidget {
             ),
           )
         else
-          ...attention.mapIndexed((i, m) => FadeSlideIn(
-                delay: Duration(milliseconds: 240 + i * 60),
-                child: Card(
-                  margin: const EdgeInsets.only(top: AppSpace.cardGap),
-                  child: ListTile(
-                    leading: InitialAvatar(m.userName, radius: 21),
-                    title: Text(m.userName, maxLines: 1, overflow: TextOverflow.ellipsis, style: AppText.title),
-                    subtitle: Text(
-                      '${m.planName} · till ${DateFormat('dd MMM').format(m.endAt)}',
-                      style: AppText.small,
-                    ),
-                    trailing: StatusChip(m.status),
+          ...attention.mapIndexed(
+            (i, m) => FadeSlideIn(
+              delay: Duration(milliseconds: 240 + i * 60),
+              child: Card(
+                margin: const EdgeInsets.only(top: AppSpace.cardGap),
+                child: ListTile(
+                  leading: InitialAvatar(m.userName, radius: 21),
+                  title: Text(
+                    m.userName,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppText.title,
                   ),
+                  subtitle: Text(
+                    '${m.planName} · till ${DateFormat('dd MMM').format(m.endAt)}',
+                    style: AppText.small,
+                  ),
+                  trailing: StatusChip(m.status),
                 ),
-              )),
+              ),
+            ),
+          ),
+        const SizedBox(height: AppSpace.xl),
+        const Center(child: DeveloperCredit()),
       ],
     );
   }
@@ -541,34 +574,38 @@ class _PendingTab extends ConsumerWidget {
         if (pending.isNotEmpty) ...[
           const SectionHeader(title: 'Memberships'),
           const SizedBox(height: AppSpace.sectionHeaderGap),
-          ...pending.mapIndexed((i, r) => FadeSlideIn(
-                delay: Duration(milliseconds: i * 60),
-                child: _RegCard(
-                  title: r.userName,
-                  subtitle:
-                      '+91 ${r.phone} · ${DateFormat('dd MMM, hh:mm a').format(r.createdAt)}',
-                  planLine: '${r.planName} · ₹${r.price}',
-                  onApprove: () => onApprove(r.id),
-                  onDeny: () => onDeny(r.id),
-                ),
-              )),
+          ...pending.mapIndexed(
+            (i, r) => FadeSlideIn(
+              delay: Duration(milliseconds: i * 60),
+              child: _RegCard(
+                title: r.userName,
+                subtitle:
+                    '+91 ${r.phone} · ${DateFormat('dd MMM, hh:mm a').format(r.createdAt)}',
+                planLine: '${r.planName} · ₹${r.price}',
+                onApprove: () => onApprove(r.id),
+                onDeny: () => onDeny(r.id),
+              ),
+            ),
+          ),
         ],
         if (svcPending.isNotEmpty) ...[
           const SizedBox(height: AppSpace.m),
           const SectionHeader(title: 'Programs & diets'),
           const SizedBox(height: AppSpace.sectionHeaderGap),
-          ...svcPending.mapIndexed((i, b) => FadeSlideIn(
-                delay: Duration(milliseconds: i * 60),
-                child: _RegCard(
-                  title: b.userName,
-                  subtitle:
-                      '+91 ${b.phone} · ${DateFormat('dd MMM, hh:mm a').format(b.createdAt)}',
-                  planLine:
-                      '${b.title} · ${b.kind} · ${b.price <= 0 ? 'FREE' : '₹${b.price}'}',
-                  onApprove: () => onSvcApprove(b.id),
-                  onDeny: () => onSvcDeny(b.id),
-                ),
-              )),
+          ...svcPending.mapIndexed(
+            (i, b) => FadeSlideIn(
+              delay: Duration(milliseconds: i * 60),
+              child: _RegCard(
+                title: b.userName,
+                subtitle:
+                    '+91 ${b.phone} · ${DateFormat('dd MMM, hh:mm a').format(b.createdAt)}',
+                planLine:
+                    '${b.title} · ${b.kind} · ${b.price <= 0 ? 'FREE' : '₹${b.price}'}',
+                onApprove: () => onSvcApprove(b.id),
+                onDeny: () => onSvcDeny(b.id),
+              ),
+            ),
+          ),
         ],
       ],
     );
@@ -609,10 +646,12 @@ class _RegCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(title,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: AppText.title),
+                      Text(
+                        title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppText.title,
+                      ),
                       Text(subtitle, style: AppText.tiny),
                     ],
                   ),
@@ -623,21 +662,28 @@ class _RegCard extends StatelessWidget {
             const SizedBox(height: AppSpace.m),
             Container(
               padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpace.m, vertical: AppSpace.s),
+                horizontal: AppSpace.m,
+                vertical: AppSpace.s,
+              ),
               decoration: BoxDecoration(
                 color: AppColors.surface,
                 borderRadius: BorderRadius.circular(AppRadius.s),
               ),
               child: Row(
                 children: [
-                  const Icon(AppIcons.ticket,
-                      size: AppIcon.sm, color: AppColors.yellow),
+                  const Icon(
+                    AppIcons.ticket,
+                    size: AppIcon.sm,
+                    color: AppColors.yellow,
+                  ),
                   const SizedBox(width: AppSpace.s),
                   Expanded(
-                    child: Text(planLine,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppText.title),
+                    child: Text(
+                      planLine,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppText.title,
+                    ),
                   ),
                 ],
               ),
@@ -648,14 +694,12 @@ class _RegCard extends StatelessWidget {
                 Expanded(
                   child: OutlinedButton.icon(
                     onPressed: onDeny,
-                    icon: const Icon(AppIcons.close,
-                        size: AppIcon.sm),
+                    icon: const Icon(AppIcons.close, size: AppIcon.sm),
                     label: const Text('Deny'),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: AppColors.red,
                       side: const BorderSide(color: Color(0x66FF6B6B)),
-                      minimumSize:
-                          const Size(48, AppSizes.btnSecondary),
+                      minimumSize: const Size(48, AppSizes.btnSecondary),
                     ),
                   ),
                 ),
@@ -664,12 +708,11 @@ class _RegCard extends StatelessWidget {
                   flex: 2,
                   child: ElevatedButton.icon(
                     onPressed: onApprove,
-                    icon: const Icon(AppIcons.check,
-                        size: AppIcon.sm),
+                    icon: const Icon(AppIcons.check, size: AppIcon.sm),
                     label: const Text('Approve'),
                     style: ElevatedButton.styleFrom(
-                        minimumSize:
-                            const Size(48, AppSizes.btnSecondary)),
+                      minimumSize: const Size(48, AppSizes.btnSecondary),
+                    ),
                   ),
                 ),
               ],
@@ -712,25 +755,29 @@ class _MembersTab extends StatelessWidget {
           hint: 'Search name, phone, plan…',
           onQuery: onQuery,
           chips: filters.entries
-              .map((e) => (
-                    label: e.value,
-                    selected: filter == e.key,
-                    onTap: () => onFilter(e.key),
-                  ))
+              .map(
+                (e) => (
+                  label: e.value,
+                  selected: filter == e.key,
+                  onTap: () => onFilter(e.key),
+                ),
+              )
               .toList(),
         ),
         Expanded(
           child: members.isEmpty
               ? EmptyView(
                   icon: AppIcons.searchOff,
-                  title: filter == 'all'
-                      ? 'No members found'
-                      : 'Nothing here',
+                  title: filter == 'all' ? 'No members found' : 'Nothing here',
                   subtitle: 'Try a different search or filter.',
                 )
               : ListView.builder(
                   padding: const EdgeInsets.fromLTRB(
-                      AppSpace.l, AppSpace.xs, AppSpace.l, AppSpace.l),
+                    AppSpace.l,
+                    AppSpace.xs,
+                    AppSpace.l,
+                    AppSpace.l,
+                  ),
                   itemCount: members.length,
                   itemBuilder: (_, i) {
                     final m = members[i];
@@ -738,7 +785,12 @@ class _MembersTab extends StatelessWidget {
                       margin: const EdgeInsets.only(bottom: AppSpace.s),
                       child: ListTile(
                         leading: InitialAvatar(m.userName, radius: 21),
-                        title: Text(m.userName, maxLines: 1, overflow: TextOverflow.ellipsis, style: AppText.title),
+                        title: Text(
+                          m.userName,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppText.title,
+                        ),
                         subtitle: Text(
                           '${m.planName} · till ${DateFormat('dd MMM yyyy').format(m.endAt)}',
                           style: AppText.small,
@@ -773,27 +825,33 @@ class _PlansTab extends ConsumerWidget {
           label: const Text('Open plan manager'),
         ),
         const SizedBox(height: AppSpace.s),
-        ...plans.mapIndexed((i, p) => FadeSlideIn(
-              delay: Duration(milliseconds: i * 60),
-              child: Card(
-                margin: const EdgeInsets.only(top: AppSpace.cardGap),
-                child: ListTile(
-                  leading: IconTile(
-                    AppIcons.membership,
-                    color: p.active ? AppColors.yellow : AppColors.faint,
-                    size: AppIcon.tile,
-                  ),
-                  title: Text(p.name, maxLines: 1, overflow: TextOverflow.ellipsis, style: AppText.title),
-                  subtitle: Text(
-                    '₹${p.price} · ${p.durationDays} days · ${p.active ? 'Visible' : 'Hidden'}',
-                    style: AppText.small,
-                  ),
-                  trailing: const Icon(AppIcons.next,
-                      color: AppColors.grey),
-                  onTap: onPlans,
+        ...plans.mapIndexed(
+          (i, p) => FadeSlideIn(
+            delay: Duration(milliseconds: i * 60),
+            child: Card(
+              margin: const EdgeInsets.only(top: AppSpace.cardGap),
+              child: ListTile(
+                leading: IconTile(
+                  AppIcons.membership,
+                  color: p.active ? AppColors.yellow : AppColors.faint,
+                  size: AppIcon.tile,
                 ),
+                title: Text(
+                  p.name,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppText.title,
+                ),
+                subtitle: Text(
+                  '₹${p.price} · ${p.durationDays} days · ${p.active ? 'Visible' : 'Hidden'}',
+                  style: AppText.small,
+                ),
+                trailing: const Icon(AppIcons.next, color: AppColors.grey),
+                onTap: onPlans,
               ),
-            )),
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -833,10 +891,7 @@ class _ServicesTab extends ConsumerWidget {
           return Card(
             margin: const EdgeInsets.only(top: AppSpace.cardGap),
             child: ListTile(
-              leading: IconTile(
-                AppIcons.kindIcon(k),
-                size: AppIcon.tile,
-              ),
+              leading: IconTile(AppIcons.kindIcon(k), size: AppIcon.tile),
               title: Text(
                 k.isEmpty ? k : k[0].toUpperCase() + k.substring(1),
                 style: AppText.title,
@@ -845,8 +900,7 @@ class _ServicesTab extends ConsumerWidget {
                 '${items.length} program(s) · $active visible',
                 style: AppText.small,
               ),
-              trailing: const Icon(AppIcons.next,
-                  color: AppColors.grey),
+              trailing: const Icon(AppIcons.next, color: AppColors.grey),
               onTap: onManage,
             ),
           );

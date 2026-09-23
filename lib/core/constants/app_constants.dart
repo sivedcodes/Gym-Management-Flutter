@@ -1,6 +1,8 @@
 /// Central app constants — no magic strings in UI/logic.
 abstract final class AppConstants {
   static const String appName = 'Total Fit Gym';
+  static const String developerName = 'sived.codes';
+  static const String developerUrl = 'https://sived-codes.web.app/';
   static const String org = 'com.totalfitgym';
 
   // RTDB top-level nodes (logical plan, see PROJECT_BLUEPRINT.md §13)
