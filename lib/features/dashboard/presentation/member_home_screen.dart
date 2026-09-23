@@ -154,6 +154,15 @@ class MemberHomeScreen extends ConsumerWidget {
                       ],
                     ),
                   ),
+                  if (db.splitOf(me) case final split?) ...[
+                    const SizedBox(
+                        height: AppSpace.sectionGap),
+                    FadeSlideIn(
+                      delay:
+                          const Duration(milliseconds: 160),
+                      child: _TodayCard(split: split),
+                    ),
+                  ],
                   const SizedBox(height: AppSpace.sectionGap),
                   FadeSlideIn(
                     delay: const Duration(milliseconds: 170),
@@ -716,6 +725,39 @@ class _FeaturedCard extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// Today's workout banner from the member's chosen split.
+class _TodayCard extends StatelessWidget {
+  final WorkoutSplit split;
+  const _TodayCard({required this.split});
+
+  @override
+  Widget build(BuildContext context) {
+    final t = split.today;
+    return Card(
+      color: AppColors.yellow.withValues(alpha: 0.07),
+      child: ListTile(
+        leading: const IconTile(AppIcons.training,
+            size: AppIcon.tile),
+        title: Text(
+          t.rest ? 'Rest day — recover well' : 'Today: ${t.focus}',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: AppText.title,
+        ),
+        subtitle: Text(
+          '${split.name} · tap for full week',
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: AppText.small,
+        ),
+        trailing:
+            const Icon(AppIcons.next, color: AppColors.grey),
+        onTap: () => context.push('/splits'),
       ),
     );
   }

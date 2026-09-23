@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import '../../../core/auth/session.dart';
+import '../../../core/models/app_models.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/theme/app_icons.dart';
 import '../../../core/theme/tokens.dart';
@@ -125,11 +126,13 @@ class ProfileScreen extends ConsumerWidget {
                             value: me.weightKg == null
                                 ? '—'
                                 : '${_num(me.weightKg!)} kg'),
+                        const SizedBox(width: AppSpace.s),
                         _StatMini(
                             label: 'Height',
                             value: me.heightCm == null
                                 ? '—'
                                 : '${_num(me.heightCm!)} cm'),
+                        const SizedBox(width: AppSpace.s),
                         _StatMini(
                             label: 'BMI',
                             value: me.bmi == null
@@ -208,6 +211,27 @@ class ProfileScreen extends ConsumerWidget {
                     trailing: const Icon(AppIcons.next,
                         color: AppColors.grey),
                     onTap: () => context.push('/join?gym=demo-gym'),
+                  ),
+                  const Divider(
+                      height: 1,
+                      indent: AppSpace.l,
+                      endIndent: AppSpace.l),
+                  ListTile(
+                    leading: const IconTile(
+                        AppIcons.training,
+                        size: AppIcon.tile),
+                    title: Text('Workout split',
+                        style: AppText.title),
+                    subtitle: Text(
+                      db.splitOf(me)?.name ?? 'Not selected',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppText.small,
+                    ),
+                    trailing: const Icon(AppIcons.next,
+                        color: AppColors.grey),
+                    onTap: () =>
+                        context.push('/splits'),
                   ),
                   const Divider(
                       height: 1,
@@ -358,6 +382,49 @@ class ProfileScreen extends ConsumerWidget {
             child: const Text('Save'),
           ),
         ],
+      ),
+    );
+  }
+}
+
+String _num(double v) =>
+    v == v.roundToDouble() ? '${v.toInt()}' : '$v';
+
+String _goalText(AppUser u) => switch (u.goal) {
+      'gain' =>
+        'Goal: Gain ${u.targetKg == null ? '' : '${_num(u.targetKg!)} kg'}',
+      'loss' =>
+        'Goal: Lose ${u.targetKg == null ? '' : '${_num(u.targetKg!)} kg'}',
+      'maintain' => 'Goal: Maintain',
+      _ => 'Goal not set',
+    };
+
+class _StatMini extends StatelessWidget {
+  final String label;
+  final String value;
+  const _StatMini({required this.label, required this.value});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+            horizontal: AppSpace.m, vertical: AppSpace.s),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(AppRadius.s),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(label, style: AppText.tiny),
+            const SizedBox(height: AppSpace.xs),
+            Text(value,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: AppText.title.copyWith(fontSize: 14)),
+          ],
+        ),
       ),
     );
   }

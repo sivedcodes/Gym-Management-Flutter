@@ -9,7 +9,7 @@ import '../../../core/utils/responsive.dart';
 import '../../../core/widgets/brand.dart';
 import '../../../core/widgets/chips.dart';
 import '../../../core/widgets/motion.dart';
-import '../auth/presentation/setup_screen.dart' show WeekPreview;
+import '../../auth/presentation/setup_screen.dart' show WeekPreview;
 
 /// Workout splits catalog. Members pick one and follow the weekly
 /// chart; owners manage the catalog (add/edit/show-hide, incl. days).
@@ -40,7 +40,7 @@ class SplitsScreen extends ConsumerWidget {
       ),
       body: MaxWidth(
         child: items.isEmpty
-            ? const Center(
+            ? Center(
                 child: Text('No splits yet.',
                     style: AppText.small))
             : ListView.builder(

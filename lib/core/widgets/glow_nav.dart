@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/app_theme.dart';
 import '../theme/tokens.dart';
+import '../utils/haptics.dart';
 
 /// Bottom nav item spec.
 class GlowNavItem {
@@ -78,7 +79,11 @@ class _Btn extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: GestureDetector(
-        onTap: onTap,
+        onTap: () {
+          // Subtle premium tick on every tab switch.
+          softTick();
+          onTap();
+        },
         behavior: HitTestBehavior.opaque,
         child: Column(
           mainAxisSize: MainAxisSize.min,

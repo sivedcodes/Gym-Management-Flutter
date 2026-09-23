@@ -155,8 +155,8 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
                 ),
               ),
               const SizedBox(height: AppSpace.xs),
-              const FadeSlideIn(
-                delay: Duration(milliseconds: 60),
+              FadeSlideIn(
+                delay: const Duration(milliseconds: 60),
                 child: Text(
                   'Training plans, BMI and rush insights use this.',
                   style: AppText.small,

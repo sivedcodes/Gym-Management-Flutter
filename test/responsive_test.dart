@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:total_fit_gym/core/auth/session.dart';
 import 'package:total_fit_gym/core/routing/app_router.dart';
+import 'package:total_fit_gym/features/member/presentation/profile_screen.dart';
 import 'package:total_fit_gym/main.dart';
 
 /// Phase-15 responsive validation: pumps the REAL app at multiple
@@ -58,6 +59,18 @@ Future<void> _memberFlow(WidgetTester t) async {
   await _tapTab(t, 'Music');
   expect(find.text('Pump it up'), findsOneWidget);
   await _tapTab(t, 'Profile');
+  // History sits below the fold (lazy list) — scroll the Profile
+  // ListView specifically (offstage tabs own Scrollables too).
+  await t.scrollUntilVisible(
+    find.text('History'),
+    300,
+    scrollable: find
+        .descendant(
+          of: find.byType(ProfileScreen),
+          matching: find.byType(Scrollable),
+        )
+        .first,
+  );
   expect(find.text('History'), findsOneWidget);
   await _tapTab(t, 'Home');
   // Renew CTA sits below the fold (lazy slivers) — scroll to it.

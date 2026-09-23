@@ -14,6 +14,8 @@ String _fmt(Duration d) {
 }
 
 /// Persistent mini player — sits above the member bottom nav.
+/// Swipe left/right to dismiss (stops playback), with smooth
+/// Dismissible animation. Tap opens the full sheet.
 class MiniPlayer extends ConsumerWidget {
   const MiniPlayer({super.key});
   @override
@@ -21,7 +23,12 @@ class MiniPlayer extends ConsumerWidget {
     final player = ref.watch(gymPlayerProvider);
     final t = player.current;
     if (t == null) return const SizedBox.shrink();
-    return GestureDetector(
+    return Dismissible(
+      key: const ValueKey('mini_player'),
+      direction: DismissDirection.horizontal,
+      onDismissed: (_) =>
+          ref.read(gymPlayerProvider).stop(),
+      child: GestureDetector(
       onTap: () => openPlayerSheet(context),
       child: Container(
         margin: AppSpace.miniPlayer,
@@ -96,6 +103,7 @@ class MiniPlayer extends ConsumerWidget {
               ),
           ],
         ),
+      ),
       ),
     );
   }
