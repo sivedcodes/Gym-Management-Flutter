@@ -24,8 +24,8 @@ class LoginScreen extends ConsumerWidget {
             child: ListView(
               padding: AppSpace.screen,
               children: [
-                const SizedBox(height: AppSpace.xxl),
-                const FadeSlideIn(child: GymLogo(size: 76)),
+                const SizedBox(height: AppSpace.m),
+                const FadeSlideIn(child: GymLogo(size: 64)),
                 const SizedBox(height: AppSpace.m),
                 FadeSlideIn(
                   delay: const Duration(milliseconds: 80),
@@ -35,7 +35,7 @@ class LoginScreen extends ConsumerWidget {
                     style: AppText.body.copyWith(color: AppColors.grey),
                   ),
                 ),
-                const SizedBox(height: AppSpace.sectionGap),
+                const SizedBox(height: AppSpace.l),
                 FadeSlideIn(
                   delay: const Duration(milliseconds: 140),
                   child: const _FeatureRow(
@@ -62,7 +62,7 @@ class LoginScreen extends ConsumerWidget {
                     subtitle: 'Smart reminders before your plan ends',
                   ),
                 ),
-                const SizedBox(height: AppSpace.sectionGap),
+                const SizedBox(height: AppSpace.l),
                 FadeSlideIn(
                   delay: const Duration(milliseconds: 320),
                   child: SizedBox(
@@ -94,57 +94,55 @@ class LoginScreen extends ConsumerWidget {
                     label: const Text('I have a QR / join link'),
                   ),
                 ),
-                const SizedBox(height: AppSpace.sectionGap),
+                const SizedBox(height: AppSpace.l),
                 FadeSlideIn(
                   delay: const Duration(milliseconds: 440),
                   child: Card(
-                    child: Padding(
-                      padding: AppSpace.card,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              const Icon(AppIcons.demo,
-                                  size: AppIcon.btn,
-                                  color: AppColors.grey),
-                              const SizedBox(width: AppSpace.xxs),
-                              Text('DEMO CONSOLE', style: AppText.eyebrow),
-                            ],
-                          ),
-                          const SizedBox(height: AppSpace.xs),
-                          Text(
-                            'No backend needed yet — explore both roles:',
-                            style: AppText.small,
-                          ),
-                          const SizedBox(height: AppSpace.m),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: OutlinedButton.icon(
-                                  onPressed: () => demoLogin(ref, 'u_active'),
-                                  icon: const Icon(
-                                    AppIcons.profile,
-                                    size: AppIcon.btn,
-                                  ),
-                                  label: const Text('Member'),
-                                ),
-                              ),
-                              const SizedBox(width: AppSpace.m),
-                              Expanded(
-                                child: OutlinedButton.icon(
-                                  onPressed: () => demoLogin(ref, 'owner_1'),
-                                  icon: const Icon(
-                                    AppIcons.gym,
-                                    size: AppIcon.btn,
-                                  ),
-                                  label: const Text('Owner'),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                    margin: EdgeInsets.zero,
+                    child: ExpansionTile(
+                      tilePadding: AppSpace.card,
+                      childrenPadding: const EdgeInsets.only(
+                          left: AppSpace.l,
+                          right: AppSpace.l,
+                          bottom: AppSpace.l),
+                      leading: const Icon(AppIcons.demo,
+                          size: AppIcon.btn,
+                          color: AppColors.grey),
+                      title: Text('DEMO CONSOLE',
+                          style: AppText.eyebrow),
+                      subtitle: Text(
+                        'No backend needed yet — explore both roles:',
+                        style: AppText.small,
                       ),
+                      children: [
+                        Row(
+                          children: [
+                            Expanded(
+                              child: OutlinedButton.icon(
+                                onPressed: () =>
+                                    demoLogin(ref, 'u_active'),
+                                icon: const Icon(
+                                  AppIcons.profile,
+                                  size: AppIcon.btn,
+                                ),
+                                label: const Text('Member'),
+                              ),
+                            ),
+                            const SizedBox(width: AppSpace.m),
+                            Expanded(
+                              child: OutlinedButton.icon(
+                                onPressed: () =>
+                                    demoLogin(ref, 'owner_1'),
+                                icon: const Icon(
+                                  AppIcons.gym,
+                                  size: AppIcon.btn,
+                                ),
+                                label: const Text('Owner'),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
                   ),
                 ),
@@ -170,7 +168,7 @@ class _FeatureRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: AppSpace.card,
+      padding: const EdgeInsets.all(AppSpace.m),
       decoration: BoxDecoration(
         color: AppColors.card,
         borderRadius: BorderRadius.circular(AppRadius.m),
@@ -179,7 +177,7 @@ class _FeatureRow extends StatelessWidget {
       child: Row(
         children: [
           IconTile(icon, size: AppIcon.tile),
-          const SizedBox(width: AppSpace.l),
+          const SizedBox(width: AppSpace.m),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
