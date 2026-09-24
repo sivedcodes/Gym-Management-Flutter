@@ -469,50 +469,66 @@ class _HomeTab extends StatelessWidget {
         const SizedBox(height: AppSpace.m),
         FadeSlideIn(
           delay: const Duration(milliseconds: 300),
-          child: Row(
-            children: [
-              Expanded(
-                child: Card(
-                  child: ListTile(
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: AppSpace.m,
-                      vertical: AppSpace.xs,
-                    ),
-                    leading: const IconTile(AppIcons.trainer, size: AppIcon.tile),
-                    title: Text('Trainers & PT', style: AppText.title),
-                    subtitle: Text('Coaches & batches', style: AppText.tiny),
-                    trailing: const Icon(AppIcons.next, size: 16, color: AppColors.grey),
+          child: IntrinsicHeight(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Expanded(
+                  child: _DashboardActionCard(
+                    icon: AppIcons.trainer,
+                    title: 'Trainers & PT',
+                    subtitle: 'Coaches & batches',
                     onTap: () => context.push('/trainers'),
                   ),
                 ),
-              ),
-              const SizedBox(width: AppSpace.s),
-              Expanded(
-                child: Consumer(
-                  builder: (context, ref, _) {
-                    final activeIssues = ref.watch(fakeDbProvider).activeIssueCount();
-                    return Card(
-                      child: ListTile(
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: AppSpace.m,
-                          vertical: AppSpace.xs,
-                        ),
-                        leading: const IconTile(AppIcons.maintenance, size: AppIcon.tile),
-                        title: Text('Equipment', style: AppText.title),
-                        subtitle: Text(
-                          activeIssues > 0 ? '$activeIssues active issue(s)' : 'All operational',
-                          style: AppText.tiny.copyWith(
-                            color: activeIssues > 0 ? AppColors.yellow : null,
-                          ),
-                        ),
-                        trailing: const Icon(AppIcons.next, size: 16, color: AppColors.grey),
+                const SizedBox(width: AppSpace.s),
+                Expanded(
+                  child: Consumer(
+                    builder: (context, ref, _) {
+                      final activeIssues =
+                          ref.watch(fakeDbProvider).activeIssueCount();
+                      return _DashboardActionCard(
+                        icon: AppIcons.maintenance,
+                        title: 'Equipment',
+                        subtitle: activeIssues > 0
+                            ? '$activeIssues active issue(s)'
+                            : 'All operational',
+                        subtitleColor:
+                            activeIssues > 0 ? AppColors.yellow : null,
+                        badge: activeIssues > 0
+                            ? Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                  vertical: 2,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: AppColors.yellow.withValues(
+                                    alpha: 0.15,
+                                  ),
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(
+                                    color: AppColors.yellow.withValues(
+                                      alpha: 0.4,
+                                    ),
+                                  ),
+                                ),
+                                child: Text(
+                                  '$activeIssues',
+                                  style: AppText.tiny.copyWith(
+                                    color: AppColors.yellow,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 10,
+                                  ),
+                                ),
+                              )
+                            : null,
                         onTap: () => context.push('/equipment'),
-                      ),
-                    );
-                  },
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         const SizedBox(height: AppSpace.s),
@@ -569,6 +585,85 @@ class _HomeTab extends StatelessWidget {
         const SizedBox(height: AppSpace.xl),
         const Center(child: DeveloperCredit()),
       ],
+    );
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// _DashboardActionCard
+// Symmetrical equal-height quick action card for 2-column dashboard rows.
+// ─────────────────────────────────────────────────────────────────────────────
+class _DashboardActionCard extends StatelessWidget {
+  final IconData icon;
+  final String title;
+  final String subtitle;
+  final VoidCallback onTap;
+  final Color? subtitleColor;
+  final Widget? badge;
+
+  const _DashboardActionCard({
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    required this.onTap,
+    this.subtitleColor,
+    this.badge,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      margin: EdgeInsets.zero,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(AppRadius.l),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpace.m,
+            vertical: 13,
+          ),
+          child: Row(
+            children: [
+              IconTile(icon, size: AppIcon.tile),
+              const SizedBox(width: AppSpace.s),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppText.title.copyWith(fontSize: 13),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(
+                      subtitle,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppText.tiny.copyWith(
+                        color: subtitleColor ?? AppColors.grey,
+                        fontSize: 11,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 4),
+              if (badge != null)
+                badge!
+              else
+                const Icon(
+                  AppIcons.next,
+                  size: 14,
+                  color: AppColors.grey,
+                ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
