@@ -6,5 +6,6 @@
 2026-09-24 | F21 | Redesigned LoginScreen with ambient pulsing glow hero, exclusive Google Sign-In with official 4-color vector GoogleMark painter, removed QR join option, and verified zero responsive overflow across all screen sizes. | `~/development/flutter/bin/flutter test` | None
 2026-09-24 | F22 | Built athletic Intro / About Us screen (/intro, /about) with gym timings, facilities, contact card, trainer showcase, prominent login CTA, and owner-only details editor bottom sheet; linked from login screen, member profile, and owner dashboard. | `~/development/flutter/bin/flutter test` | None
 2026-09-24 | F23 | Re-spaced LoginScreen to eliminate compact cramping: enlarged GymLogo to 80px, increased spacing rhythm (20-24px), unified value highlights into one spacious showcase card with hairline dividers, enlarged Google CTA to 54px, styled Tour button, and added open 1-tap Demo Console. | `~/development/flutter/bin/flutter test` | None
+2026-09-24 | F24 | Stripped away heavy CardViews and competing buttons from LoginScreen in favor of clean athletic minimalism: 84px hero GymLogo, lightweight floating feature pills, single high-contrast Google CTA button, subtle Facilities Tour text link, and cardless demo pill. | `~/development/flutter/bin/flutter test` | None
 
 

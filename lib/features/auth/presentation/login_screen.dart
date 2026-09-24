@@ -9,8 +9,9 @@ import '../../../core/utils/responsive.dart';
 import '../../../core/widgets/brand.dart';
 import '../../../core/widgets/motion.dart';
 
-/// Spacious athletic login screen with ambient animations,
-/// official vector Google sign-in mark, and balanced visual hierarchy.
+/// Clean, focused, cardless athletic login screen.
+/// Features a commanding brand hero, official Google sign-in CTA,
+/// facilities tour navigation, and discreet demo access without visual clutter.
 class LoginScreen extends ConsumerWidget {
   const LoginScreen({super.key});
 
@@ -20,92 +21,110 @@ class LoginScreen extends ConsumerWidget {
       body: Container(
         decoration: const BoxDecoration(
           gradient: RadialGradient(
-            center: Alignment(0, -0.55),
-            radius: 1.25,
+            center: Alignment(0, -0.5),
+            radius: 1.3,
             colors: [
-              Color(0xFF241E08),
-              Color(0xFF101014),
+              Color(0xFF261E08),
+              Color(0xFF0F0F12),
               Color(0xFF08080A),
             ],
-            stops: [0.0, 0.48, 1.0],
+            stops: [0.0, 0.45, 1.0],
           ),
         ),
         child: MaxWidth(
-          maxWidth: 480,
+          maxWidth: 440,
           child: SafeArea(
             child: ListView(
-              padding: const EdgeInsets.fromLTRB(
-                AppSpace.l,
-                AppSpace.xl,
-                AppSpace.l,
-                AppSpace.xxl,
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpace.xl,
+                vertical: AppSpace.xl,
               ),
               children: [
+                const SizedBox(height: AppSpace.m),
+
                 // ── Hero Section with Spring Ambient Glow ──
                 const FadeSlideIn(
                   duration: Duration(milliseconds: 500),
                   child: Center(
                     child: _AmbientPulse(
-                      child: GymLogo(size: 80),
+                      child: GymLogo(size: 84),
                     ),
                   ),
                 ),
 
                 const SizedBox(height: AppSpace.l),
 
-                // ── Athletic Badge & Headline ──
+                // ── Athletic Badge ──
                 FadeSlideIn(
-                  delay: const Duration(milliseconds: 80),
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 14,
-                          vertical: 6,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.yellow.withValues(alpha: 0.12),
-                          borderRadius: BorderRadius.circular(20),
-                          border: Border.all(
-                            color: AppColors.yellow.withValues(alpha: 0.35),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(
-                              width: 7,
-                              height: 7,
-                              decoration: const BoxDecoration(
-                                color: AppColors.yellow,
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            Flexible(
-                              child: Text(
-                                'ATHLETIC CLUB & FITNESS SUITE',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: AppText.navLabel.copyWith(
-                                  color: AppColors.yellow,
-                                  fontWeight: FontWeight.w800,
-                                  letterSpacing: 0.6,
-                                  fontSize: 11,
-                                ),
-                              ),
-                            ),
-                          ],
+                  delay: const Duration(milliseconds: 70),
+                  child: Center(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 5,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.yellow.withValues(alpha: 0.12),
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: AppColors.yellow.withValues(alpha: 0.35),
                         ),
                       ),
-                      const SizedBox(height: AppSpace.s),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Container(
+                            width: 6,
+                            height: 6,
+                            decoration: const BoxDecoration(
+                              color: AppColors.yellow,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                          const SizedBox(width: 7),
+                          Flexible(
+                            child: Text(
+                              'ATHLETIC CLUB & FITNESS SUITE',
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppText.navLabel.copyWith(
+                                color: AppColors.yellow,
+                                fontWeight: FontWeight.w800,
+                                letterSpacing: 0.6,
+                                fontSize: 10.5,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: AppSpace.m),
+
+                // ── Headline & Subtitle ──
+                FadeSlideIn(
+                  delay: const Duration(milliseconds: 120),
+                  child: Column(
+                    children: [
                       Text(
-                        'Your gym, professionally managed.\nTrack splits, renew passes & train smarter.',
+                        'Elevate Your Discipline',
+                        textAlign: TextAlign.center,
+                        style: AppText.displaySm.copyWith(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: -0.3,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        'Smart workout splits, verified trainers & instant digital passes.',
                         textAlign: TextAlign.center,
                         style: AppText.body.copyWith(
                           color: AppColors.grey,
-                          fontSize: 14,
-                          height: 1.45,
+                          fontSize: 13.5,
+                          height: 1.4,
                         ),
                       ),
                     ],
@@ -114,82 +133,56 @@ class LoginScreen extends ConsumerWidget {
 
                 const SizedBox(height: AppSpace.xl),
 
-                // ── Unified Value Highlights Showcase ──
+                // ── Cardless Feature Badges (Pills) ──
                 FadeSlideIn(
-                  delay: const Duration(milliseconds: 140),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: AppSpace.l,
-                      vertical: AppSpace.m,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.card,
-                      borderRadius: BorderRadius.circular(AppRadius.xl),
-                      border: Border.all(color: AppColors.line),
-                    ),
-                    child: Column(
-                      children: [
-                        const _SpaciousFeatureItem(
+                  delay: const Duration(milliseconds: 160),
+                  child: Center(
+                    child: Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: const [
+                        _FeaturePill(
                           icon: AppIcons.splitPpl,
-                          title: 'Smart Workout Splits',
-                          subtitle:
-                              'Push Pull Legs, Bro split & personalized tracking',
+                          label: 'Smart Splits',
                         ),
-                        Divider(
-                          color: AppColors.line.withValues(alpha: 0.8),
-                          height: 22,
-                          thickness: 1,
-                        ),
-                        const _SpaciousFeatureItem(
+                        _FeaturePill(
                           icon: AppIcons.trainer,
-                          title: 'Certified Trainers & PT',
-                          subtitle:
-                              'Dedicated coaches, morning & evening batches',
+                          label: 'Certified Coaches',
                         ),
-                        Divider(
-                          color: AppColors.line.withValues(alpha: 0.8),
-                          height: 22,
-                          thickness: 1,
-                        ),
-                        const _SpaciousFeatureItem(
+                        _FeaturePill(
                           icon: AppIcons.verified,
-                          title: 'Digital Membership Pass',
-                          subtitle:
-                              'Live validity countdown, renewal alerts & entry pass',
+                          label: 'Digital Passes',
                         ),
                       ],
                     ),
                   ),
                 ),
 
-                const SizedBox(height: AppSpace.xl),
+                const SizedBox(height: AppSpace.xxxl),
 
-                // ── Professional Google Sign-In Button (Primary & Exclusive) ──
+                // ── Single Primary Google Button ──
                 FadeSlideIn(
-                  delay: const Duration(milliseconds: 220),
+                  delay: const Duration(milliseconds: 210),
                   child: SizedBox(
                     width: double.infinity,
-                    height: 54,
+                    height: 52,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.white,
-                        foregroundColor: const Color(0xFF1F1F1F),
+                        foregroundColor: const Color(0xFF1B1B1B),
                         elevation: 3,
-                        shadowColor: AppColors.yellow.withValues(alpha: 0.25),
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        shadowColor: AppColors.yellow.withValues(alpha: 0.3),
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(AppRadius.l),
-                          side: const BorderSide(
-                            color: Color(0xFFE2E4E8),
-                            width: 1.2,
-                          ),
                         ),
                       ),
                       onPressed: () => mockGoogleLogin(ref),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const GoogleMark(size: 24),
+                          const GoogleMark(size: 22),
                           const SizedBox(width: AppSpace.m),
                           Flexible(
                             child: Text(
@@ -197,8 +190,8 @@ class LoginScreen extends ConsumerWidget {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: AppText.title.copyWith(
-                                color: const Color(0xFF1F1F1F),
-                                fontSize: 16,
+                                color: const Color(0xFF1B1B1B),
+                                fontSize: 15.5,
                                 fontWeight: FontWeight.w700,
                                 letterSpacing: 0.2,
                               ),
@@ -212,9 +205,9 @@ class LoginScreen extends ConsumerWidget {
 
                 const SizedBox(height: AppSpace.s),
 
-                // ── Security & Privacy Note ──
+                // ── Security Trust Caption ──
                 FadeSlideIn(
-                  delay: const Duration(milliseconds: 260),
+                  delay: const Duration(milliseconds: 240),
                   child: Center(
                     child: FittedBox(
                       fit: BoxFit.scaleDown,
@@ -224,15 +217,15 @@ class LoginScreen extends ConsumerWidget {
                         children: [
                           const Icon(
                             Icons.shield_outlined,
-                            size: 14,
+                            size: 13,
                             color: AppColors.faint,
                           ),
-                          const SizedBox(width: 6),
+                          const SizedBox(width: 5),
                           Text(
                             'Official Google Sign-In · Instant profile sync',
                             style: AppText.tiny.copyWith(
                               color: AppColors.faint,
-                              fontSize: 11.5,
+                              fontSize: 11,
                             ),
                           ),
                         ],
@@ -243,158 +236,182 @@ class LoginScreen extends ConsumerWidget {
 
                 const SizedBox(height: AppSpace.l),
 
-                // ── About Gym / Intro Tour (Prominent Secondary CTA) ──
+                // ── Secondary Action: Gym Facilities Tour ──
                 FadeSlideIn(
-                  delay: const Duration(milliseconds: 300),
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 48,
-                    child: OutlinedButton.icon(
-                      style: OutlinedButton.styleFrom(
-                        backgroundColor:
-                            AppColors.yellow.withValues(alpha: 0.07),
-                        foregroundColor: AppColors.yellow,
-                        side: BorderSide(
-                          color: AppColors.yellow.withValues(alpha: 0.38),
-                          width: 1.2,
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(AppRadius.l),
-                        ),
-                      ),
+                  delay: const Duration(milliseconds: 280),
+                  child: Center(
+                    child: TextButton(
                       onPressed: () => context.push('/intro'),
-                      icon: const Icon(
-                        AppIcons.gym,
-                        size: 18,
-                        color: AppColors.yellow,
+                      style: TextButton.styleFrom(
+                        foregroundColor: AppColors.yellow,
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 6,
+                        ),
                       ),
-                      label: Text(
-                        'Explore Gym & Facilities Tour →',
-                        style: AppText.label.copyWith(
-                          color: AppColors.yellow,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 13.5,
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              AppIcons.gym,
+                              size: 16,
+                              color: AppColors.yellow,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              'Explore Gym & Facilities Tour →',
+                              style: AppText.body.copyWith(
+                                color: AppColors.yellow,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 13,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
                   ),
                 ),
 
-                const SizedBox(height: AppSpace.xl),
+                const SizedBox(height: AppSpace.m),
 
-                // ── Demo Exploration Console ──
+                // ── Discreet Demo Access (Cardless & Minimal) ──
                 FadeSlideIn(
-                  delay: const Duration(milliseconds: 340),
-                  child: Card(
-                    margin: EdgeInsets.zero,
-                    color: AppColors.card,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(AppRadius.l),
-                      side: const BorderSide(color: AppColors.line),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(AppSpace.l),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              const Icon(
-                                AppIcons.demo,
-                                size: 16,
-                                color: AppColors.yellow,
-                              ),
-                              const SizedBox(width: AppSpace.s),
-                              Text(
-                                'DEMO EXPLORATION CONSOLE',
-                                style: AppText.eyebrow.copyWith(
-                                  color: AppColors.yellow,
-                                  letterSpacing: 0.8,
-                                ),
-                              ),
-                            ],
+                  delay: const Duration(milliseconds: 320),
+                  child: Center(
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 6,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.04),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: Colors.white.withValues(alpha: 0.08),
                           ),
-                          const SizedBox(height: AppSpace.xs),
-                          Text(
-                            'Instant 1-tap preview without Google sign-in:',
-                            style: AppText.small.copyWith(
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(
+                              AppIcons.demo,
+                              size: 13,
                               color: AppColors.grey,
-                              fontSize: 12,
                             ),
-                          ),
-                          const SizedBox(height: AppSpace.m),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: OutlinedButton.icon(
-                                  style: OutlinedButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 12,
-                                    ),
-                                    side: const BorderSide(
-                                      color: AppColors.line,
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                        AppRadius.m,
-                                      ),
-                                    ),
-                                  ),
-                                  onPressed: () => demoLogin(ref, 'u_active'),
-                                  icon: const Icon(
-                                    AppIcons.profile,
-                                    size: 16,
-                                  ),
-                                  label: const Text('Member Role'),
-                                ),
+                            const SizedBox(width: 6),
+                            Text(
+                              'Demo: ',
+                              style: AppText.tiny.copyWith(
+                                color: AppColors.grey,
+                                fontSize: 11,
                               ),
-                              const SizedBox(width: AppSpace.m),
-                              Expanded(
-                                child: OutlinedButton.icon(
-                                  style: OutlinedButton.styleFrom(
-                                    padding: const EdgeInsets.symmetric(
-                                      vertical: 12,
-                                    ),
-                                    side: BorderSide(
-                                      color: AppColors.yellow.withValues(
-                                        alpha: 0.45,
-                                      ),
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(
-                                        AppRadius.m,
-                                      ),
-                                    ),
-                                  ),
-                                  onPressed: () => demoLogin(ref, 'owner_1'),
-                                  icon: const Icon(
-                                    AppIcons.gym,
-                                    size: 16,
+                            ),
+                            InkWell(
+                              onTap: () => demoLogin(ref, 'u_active'),
+                              borderRadius: BorderRadius.circular(4),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                  vertical: 2,
+                                ),
+                                child: Text(
+                                  'Member',
+                                  style: AppText.tiny.copyWith(
                                     color: AppColors.yellow,
-                                  ),
-                                  label: const Text(
-                                    'Owner Role',
-                                    style: TextStyle(
-                                      color: AppColors.yellow,
-                                    ),
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 11.5,
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
-                        ],
+                            ),
+                            Text(
+                              '·',
+                              style: TextStyle(
+                                color: AppColors.faint,
+                                fontSize: 12,
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () => demoLogin(ref, 'owner_1'),
+                              borderRadius: BorderRadius.circular(4),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 6,
+                                  vertical: 2,
+                                ),
+                                child: Text(
+                                  'Owner',
+                                  style: AppText.tiny.copyWith(
+                                    color: AppColors.yellow,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 11.5,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
 
-                const SizedBox(height: AppSpace.xl),
+                const SizedBox(height: AppSpace.xxl),
                 const DeveloperCredit(),
                 const SizedBox(height: AppSpace.l),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// Lightweight floating feature pill badge (cardless).
+class _FeaturePill extends StatelessWidget {
+  final IconData icon;
+  final String label;
+
+  const _FeaturePill({
+    required this.icon,
+    required this.label,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 11, vertical: 6),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.04),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: Colors.white.withValues(alpha: 0.09),
+        ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            size: 13,
+            color: AppColors.yellow,
+          ),
+          const SizedBox(width: 6),
+          Text(
+            label,
+            style: AppText.tiny.copyWith(
+              color: AppColors.white.withValues(alpha: 0.9),
+              fontWeight: FontWeight.w600,
+              fontSize: 11.5,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -416,8 +433,8 @@ class _AmbientPulse extends StatelessWidget {
           alignment: Alignment.center,
           children: [
             Container(
-              width: 110 + 45 * val,
-              height: 110 + 45 * val,
+              width: 120 + 45 * val,
+              height: 120 + 45 * val,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: RadialGradient(
@@ -436,69 +453,6 @@ class _AmbientPulse extends StatelessWidget {
           ],
         );
       },
-    );
-  }
-}
-
-class _SpaciousFeatureItem extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final String subtitle;
-
-  const _SpaciousFeatureItem({
-    required this.icon,
-    required this.title,
-    required this.subtitle,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
-      child: Row(
-        children: [
-          Container(
-            width: 44,
-            height: 44,
-            decoration: BoxDecoration(
-              color: AppColors.yellow.withValues(alpha: 0.14),
-              borderRadius: BorderRadius.circular(AppRadius.m),
-              border: Border.all(
-                color: AppColors.yellow.withValues(alpha: 0.3),
-              ),
-            ),
-            child: Icon(
-              icon,
-              size: 22,
-              color: AppColors.yellow,
-            ),
-          ),
-          const SizedBox(width: AppSpace.l),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: AppText.title.copyWith(
-                    fontSize: 14.5,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                const SizedBox(height: 3),
-                Text(
-                  subtitle,
-                  style: AppText.small.copyWith(
-                    color: AppColors.grey,
-                    fontSize: 12,
-                    height: 1.35,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
