@@ -5,5 +5,6 @@
 2026-09-24 | F20 | Redesigned Goal chips (Gain, Lose, Maintain) to 56px interactive cards with icons and sub-labels; resized Workout Split chips from bulky 168x108 blocks to 56px height x 142px width chips with distinct workout icons and difficulty tags for consistent length and balanced UI. | `~/development/flutter/bin/flutter test` | None
 2026-09-24 | F21 | Redesigned LoginScreen with ambient pulsing glow hero, exclusive Google Sign-In with official 4-color vector GoogleMark painter, removed QR join option, and verified zero responsive overflow across all screen sizes. | `~/development/flutter/bin/flutter test` | None
 2026-09-24 | F22 | Built athletic Intro / About Us screen (/intro, /about) with gym timings, facilities, contact card, trainer showcase, prominent login CTA, and owner-only details editor bottom sheet; linked from login screen, member profile, and owner dashboard. | `~/development/flutter/bin/flutter test` | None
+2026-09-24 | F23 | Re-spaced LoginScreen to eliminate compact cramping: enlarged GymLogo to 80px, increased spacing rhythm (20-24px), unified value highlights into one spacious showcase card with hairline dividers, enlarged Google CTA to 54px, styled Tour button, and added open 1-tap Demo Console. | `~/development/flutter/bin/flutter test` | None
 
 
