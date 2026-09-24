@@ -33,6 +33,7 @@ class AppUser {
   });
 
   bool get hasSlot => slotSession != null && slotFrom != null && slotTo != null;
+  bool get isOwner => role == 'owner';
 
   /// Profile is complete when phone + body stats exist (owner: phone only).
   bool get hasProfile =>
@@ -435,6 +436,61 @@ class EquipmentIssue {
     reportedAt: reportedAt,
     resolvedAt: resolvedAt ?? this.resolvedAt,
     resolutionNote: resolutionNote ?? this.resolutionNote,
+  );
+}
+
+/// Public & member-facing gym profile / about us details, editable by the owner.
+class GymInfo {
+  final String name;
+  final String tagline;
+  final String about;
+  final String phone;
+  final String email;
+  final String address;
+  final String morningShift;
+  final String eveningShift;
+  final List<String> facilities;
+  final String instagram;
+  final String mapsQuery;
+
+  const GymInfo({
+    required this.name,
+    required this.tagline,
+    required this.about,
+    required this.phone,
+    required this.email,
+    required this.address,
+    required this.morningShift,
+    required this.eveningShift,
+    required this.facilities,
+    this.instagram = '@totalfitgym',
+    this.mapsQuery = 'Total Fit Gym, Sector 18',
+  });
+
+  GymInfo copyWith({
+    String? name,
+    String? tagline,
+    String? about,
+    String? phone,
+    String? email,
+    String? address,
+    String? morningShift,
+    String? eveningShift,
+    List<String>? facilities,
+    String? instagram,
+    String? mapsQuery,
+  }) => GymInfo(
+    name: name ?? this.name,
+    tagline: tagline ?? this.tagline,
+    about: about ?? this.about,
+    phone: phone ?? this.phone,
+    email: email ?? this.email,
+    address: address ?? this.address,
+    morningShift: morningShift ?? this.morningShift,
+    eveningShift: eveningShift ?? this.eveningShift,
+    facilities: facilities ?? this.facilities,
+    instagram: instagram ?? this.instagram,
+    mapsQuery: mapsQuery ?? this.mapsQuery,
   );
 }
 

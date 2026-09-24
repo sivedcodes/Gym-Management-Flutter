@@ -16,6 +16,29 @@ class FakeDb extends ChangeNotifier {
   final Map<String, GymTrainer> trainers = {};
   final Map<String, EquipmentIssue> equipmentIssues = {};
   final List<GymNotice> notices = [];
+  GymInfo gymInfo = const GymInfo(
+    name: 'Total Fit Gym',
+    tagline: 'Elevate Your Strength & Athletic Potential',
+    about:
+        'Total Fit Gym is a premier fitness and performance training club. Equipped with professional biomechanics machines, heavy free weights, Olympic lifting zones, and certified personal trainers to help you smash your fitness goals.',
+    phone: '9876543210',
+    email: 'info@totalfitgym.in',
+    address: 'Plot 42, Sector 18, Commercial Belt, Near Metro Station, New Delhi',
+    morningShift: '06:00 AM – 11:30 AM',
+    eveningShift: '05:00 PM – 10:30 PM',
+    facilities: [
+      'Heavy Free Weights & Dumbbells up to 50kg',
+      'Dedicated Olympic Squat & Deadlift Platforms',
+      'Cardio & HIIT Endurance Deck',
+      'Certified Personal Fitness Coaches',
+      'Fully Air-Conditioned Training Floors',
+      'Locker Rooms & Clean Showers',
+      'Nutrition & Supplement Store',
+      'High-Speed Wi-Fi & Sound System',
+    ],
+    instagram: '@totalfitgym.official',
+    mapsQuery: 'Total Fit Gym, Sector 18, New Delhi',
+  );
   int _seq = 100;
 
   String _next(String prefix) => '${prefix}_${_seq++}';
@@ -602,6 +625,12 @@ class FakeDb extends ChangeNotifier {
 
   void deleteIssue(String id) {
     equipmentIssues.remove(id);
+    notifyListeners();
+  }
+
+  // ---- gym profile & intro ----
+  void updateGymInfo(GymInfo info) {
+    gymInfo = info;
     notifyListeners();
   }
 }

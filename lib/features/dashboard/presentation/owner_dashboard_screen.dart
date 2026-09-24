@@ -515,6 +515,22 @@ class _HomeTab extends StatelessWidget {
             ],
           ),
         ),
+        const SizedBox(height: AppSpace.s),
+        FadeSlideIn(
+          delay: const Duration(milliseconds: 320),
+          child: Card(
+            child: ListTile(
+              leading: const IconTile(AppIcons.gym, size: AppIcon.tile),
+              title: Text('Gym Info & Intro Tour', style: AppText.title),
+              subtitle: Text(
+                'Manage phone, address, timings & public tour',
+                style: AppText.small,
+              ),
+              trailing: const Icon(AppIcons.next, color: AppColors.grey),
+              onTap: () => context.push('/intro'),
+            ),
+          ),
+        ),
         const SizedBox(height: AppSpace.sectionGap),
         const SectionHeader(title: 'Needs attention'),
         const SizedBox(height: AppSpace.sectionHeaderGap),

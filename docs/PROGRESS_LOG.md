@@ -4,5 +4,6 @@
 2026-09-24 | F19 | Implemented Trainer Management with PT batch client assignment (/trainers), Equipment Issue Reporting & Maintenance status tracker (/equipment), owner dashboard cards, member profile & coach callout widgets, and comprehensive unit/widget tests. | `~/development/flutter/bin/flutter test` | None
 2026-09-24 | F20 | Redesigned Goal chips (Gain, Lose, Maintain) to 56px interactive cards with icons and sub-labels; resized Workout Split chips from bulky 168x108 blocks to 56px height x 142px width chips with distinct workout icons and difficulty tags for consistent length and balanced UI. | `~/development/flutter/bin/flutter test` | None
 2026-09-24 | F21 | Redesigned LoginScreen with ambient pulsing glow hero, exclusive Google Sign-In with official 4-color vector GoogleMark painter, removed QR join option, and verified zero responsive overflow across all screen sizes. | `~/development/flutter/bin/flutter test` | None
+2026-09-24 | F22 | Built athletic Intro / About Us screen (/intro, /about) with gym timings, facilities, contact card, trainer showcase, prominent login CTA, and owner-only details editor bottom sheet; linked from login screen, member profile, and owner dashboard. | `~/development/flutter/bin/flutter test` | None
 
 

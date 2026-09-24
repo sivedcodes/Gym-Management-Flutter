@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../../../core/auth/session.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/theme/app_icons.dart';
@@ -210,6 +211,28 @@ class LoginScreen extends ConsumerWidget {
                             ),
                           ),
                         ],
+                      ),
+                    ),
+                  ),
+                ),
+
+                // ── About Gym / Intro Tour ──
+                FadeSlideIn(
+                  delay: const Duration(milliseconds: 380),
+                  child: Center(
+                    child: TextButton.icon(
+                      onPressed: () => context.push('/intro'),
+                      icon: const Icon(
+                        AppIcons.gym,
+                        size: 16,
+                        color: AppColors.yellow,
+                      ),
+                      label: Text(
+                        'About Gym & Facilities Tour →',
+                        style: AppText.label.copyWith(
+                          color: AppColors.yellow,
+                          fontWeight: FontWeight.w700,
+                        ),
                       ),
                     ),
                   ),

@@ -17,6 +17,7 @@ import '../../features/splash/presentation/splash_screen.dart';
 import '../../features/member/presentation/history_screen.dart';
 import '../../features/trainers/presentation/trainers_screen.dart';
 import '../../features/equipment/presentation/equipment_issues_screen.dart';
+import '../../features/intro/presentation/intro_screen.dart';
 
 enum AuthStatus { unknown, signedOut, needsPhone, member, owner }
 
@@ -33,7 +34,9 @@ final routerProvider = Provider<GoRouter>((ref) {
         case AuthStatus.unknown:
           return '/';
         case AuthStatus.signedOut:
-          return loc == '/login' ? null : '/login';
+          return (loc == '/login' || loc == '/intro' || loc == '/about')
+              ? null
+              : '/login';
         case AuthStatus.needsPhone:
           return (loc == '/setup' || loc == '/login') ? null : '/setup';
         case AuthStatus.member:
@@ -75,6 +78,8 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: '/equipment',
         builder: (c, s) => const EquipmentIssuesScreen(),
       ),
+      GoRoute(path: '/intro', builder: (c, s) => const IntroScreen()),
+      GoRoute(path: '/about', builder: (c, s) => const IntroScreen()),
       GoRoute(
         path: '/music/collection',
         builder: (c, s) => CollectionScreen(

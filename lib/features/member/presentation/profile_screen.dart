@@ -271,6 +271,21 @@ class ProfileScreen extends ConsumerWidget {
                     trailing: const Icon(AppIcons.next, color: AppColors.grey),
                     onTap: () => context.push('/equipment'),
                   ),
+                  ListTile(
+                    leading: const IconTile(
+                      AppIcons.gym,
+                      size: AppIcon.tile,
+                    ),
+                    title: Text('About gym & facilities', style: AppText.title),
+                    subtitle: Text(
+                      '${db.gymInfo.phone} · Timings & address',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppText.small,
+                    ),
+                    trailing: const Icon(AppIcons.next, color: AppColors.grey),
+                    onTap: () => context.push('/intro'),
+                  ),
                   const Divider(
                     height: 1,
                     indent: AppSpace.l,
