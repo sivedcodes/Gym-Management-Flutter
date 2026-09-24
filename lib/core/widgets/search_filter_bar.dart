@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/app_icons.dart';
+import '../theme/app_theme.dart';
 import '../theme/tokens.dart';
 import 'chips.dart';
 
@@ -52,6 +53,7 @@ class SearchFilterBar extends StatelessWidget {
         Padding(
           padding: AppSpace.filterRow,
           child: TextField(
+            style: TextStyle(color: AppColors.white),
             decoration: InputDecoration(
               hintText: hint,
               prefixIcon: const Icon(AppIcons.search),

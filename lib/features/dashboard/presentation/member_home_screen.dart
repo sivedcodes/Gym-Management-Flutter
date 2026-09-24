@@ -307,10 +307,10 @@ class MemberHomeScreen extends ConsumerWidget {
                   const SizedBox(height: AppSpace.s),
                   Center(
                     child: TextButton.icon(
-                      onPressed: () => context.push('/notices'),
+                      onPressed: () => context.push('/history'),
                       icon: const Icon(AppIcons.history,
                           size: AppIcon.sm),
-                      label: const Text('Full history in Profile →'),
+                      label: const Text('View full history →'),
                     ),
                   ),
                 ],

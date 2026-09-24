@@ -99,6 +99,7 @@ class PlansScreen extends ConsumerWidget {
               children: [
                 TextFormField(
                   controller: name,
+                  style: const TextStyle(color: AppColors.white),
                   decoration: const InputDecoration(
                     labelText: 'Name',
                     prefixIcon: Icon(AppIcons.label),
@@ -110,6 +111,7 @@ class PlansScreen extends ConsumerWidget {
                 TextFormField(
                   controller: price,
                   keyboardType: TextInputType.number,
+                  style: const TextStyle(color: AppColors.white),
                   decoration: const InputDecoration(
                     labelText: 'Price (₹)',
                     prefixIcon: Icon(AppIcons.rupee),
@@ -123,6 +125,7 @@ class PlansScreen extends ConsumerWidget {
                 TextFormField(
                   controller: days,
                   keyboardType: TextInputType.number,
+                  style: const TextStyle(color: AppColors.white),
                   decoration: const InputDecoration(
                     labelText: 'Duration (days)',
                     prefixIcon: Icon(AppIcons.calendar),
@@ -135,6 +138,7 @@ class PlansScreen extends ConsumerWidget {
                 const SizedBox(height: AppSpace.m),
                 TextFormField(
                   controller: desc,
+                  style: const TextStyle(color: AppColors.white),
                   decoration: const InputDecoration(
                     labelText: 'Description',
                     prefixIcon: Icon(AppIcons.desc),

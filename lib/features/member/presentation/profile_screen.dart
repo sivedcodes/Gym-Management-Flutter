@@ -252,69 +252,28 @@ class ProfileScreen extends ConsumerWidget {
                       initialTo: me.slotTo,
                     ),
                   ),
+                  const Divider(
+                    height: 1,
+                    indent: AppSpace.l,
+                    endIndent: AppSpace.l,
+                  ),
+                  ListTile(
+                    leading: const IconTile(
+                      AppIcons.history,
+                      size: AppIcon.tile,
+                    ),
+                    title: Text('History', style: AppText.title),
+                    subtitle: Text(
+                      'Membership & program requests',
+                      style: AppText.small,
+                    ),
+                    trailing: const Icon(AppIcons.next, color: AppColors.grey),
+                    onTap: () => context.push('/history'),
+                  ),
                 ],
               ),
             ),
             const SizedBox(height: AppSpace.l),
-
-            // ── History ──
-            const SectionHeader(title: 'History'),
-            const SizedBox(height: AppSpace.sectionHeaderGap),
-            if (regs.isEmpty && bookings.isEmpty)
-              const EmptyView(
-                icon: AppIcons.history,
-                title: 'No requests yet',
-                subtitle:
-                    'Your membership and program history will appear here.',
-              )
-            else ...[
-              ...regs.map(
-                (r) => Card(
-                  margin: const EdgeInsets.only(top: AppSpace.s),
-                  child: ListTile(
-                    leading: const IconTile(
-                      AppIcons.membershipOut,
-                      size: AppIcon.tile,
-                    ),
-                    title: Text(
-                      'Membership · ${r.planName}',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppText.title,
-                    ),
-                    subtitle: Text(
-                      '₹${r.price} · ${DateFormat('dd MMM yyyy').format(r.createdAt)}'
-                      '${r.status == 'denied' && (r.reason ?? '').isNotEmpty ? ' · ${r.reason}' : ''}',
-                      style: AppText.tiny,
-                    ),
-                    trailing: StatusChip(r.status),
-                  ),
-                ),
-              ),
-              ...bookings.map(
-                (b) => Card(
-                  margin: const EdgeInsets.only(top: AppSpace.s),
-                  child: ListTile(
-                    leading: const IconTile(
-                      AppIcons.programs,
-                      size: AppIcon.tile,
-                    ),
-                    title: Text(
-                      'Program · ${b.title}',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: AppText.title,
-                    ),
-                    subtitle: Text(
-                      '${b.kind} · ${DateFormat('dd MMM yyyy').format(b.createdAt)}',
-                      style: AppText.tiny,
-                    ),
-                    trailing: StatusChip(b.status),
-                  ),
-                ),
-              ),
-            ],
-            const SizedBox(height: AppSpace.xl),
 
             // ── Logout ──
             OutlinedButton.icon(
@@ -352,6 +311,7 @@ class ProfileScreen extends ConsumerWidget {
             controller: ctrl,
             keyboardType: TextInputType.phone,
             maxLength: 10,
+            style: const TextStyle(color: AppColors.white),
             decoration: const InputDecoration(
               prefixText: '+91  ',
               counterText: '',

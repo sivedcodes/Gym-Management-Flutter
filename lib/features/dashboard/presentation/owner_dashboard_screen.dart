@@ -272,6 +272,7 @@ class _OwnerDashboardScreenState extends ConsumerState<OwnerDashboardScreen> {
         title: const Text('Deny request?'),
         content: TextField(
           controller: ctrl,
+          style: const TextStyle(color: AppColors.white),
           decoration: const InputDecoration(
             labelText: 'Reason (shown to member)',
             hintText: 'e.g. Payment not received',
@@ -311,6 +312,7 @@ class _OwnerDashboardScreenState extends ConsumerState<OwnerDashboardScreen> {
         title: const Text('Deny program request?'),
         content: TextField(
           controller: ctrl,
+          style: const TextStyle(color: AppColors.white),
           decoration: const InputDecoration(
             labelText: 'Reason (shown to member)',
             hintText: 'e.g. Batch full, try next month',

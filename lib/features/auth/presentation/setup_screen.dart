@@ -188,6 +188,7 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
               TextFormField(
                 initialValue: me.email,
                 enabled: false,
+                style: const TextStyle(color: AppColors.grey),
                 decoration: const InputDecoration(
                   labelText: 'Email (cannot be changed)',
                   prefixIcon: Icon(AppIcons.info),
@@ -381,6 +382,7 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
       controller: controller,
       keyboardType: keyboard,
       maxLength: maxLen,
+      style: const TextStyle(color: AppColors.white),
       decoration: InputDecoration(
         labelText: label,
         hintText: hint,

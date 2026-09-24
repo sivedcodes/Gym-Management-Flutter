@@ -248,6 +248,8 @@ Future<void> showSlotDialog(
                   Expanded(
                     child: DropdownButtonFormField<int>(
                       initialValue: from,
+                      dropdownColor: AppColors.card,
+                      style: const TextStyle(color: AppColors.white),
                       decoration: const InputDecoration(
                         labelText: 'From',
                         prefixIcon: Icon(AppIcons.forward),
@@ -256,7 +258,10 @@ Future<void> showSlotDialog(
                           .map(
                             (h) => DropdownMenuItem(
                               value: h,
-                              child: Text(FakeDb.hourLabel(h)),
+                              child: Text(
+                                FakeDb.hourLabel(h),
+                                style: const TextStyle(color: AppColors.white),
+                              ),
                             ),
                           )
                           .toList(),
@@ -270,6 +275,8 @@ Future<void> showSlotDialog(
                   Expanded(
                     child: DropdownButtonFormField<int>(
                       initialValue: to,
+                      dropdownColor: AppColors.card,
+                      style: const TextStyle(color: AppColors.white),
                       decoration: const InputDecoration(
                         labelText: 'To',
                         prefixIcon: Icon(AppIcons.forward),
@@ -282,7 +289,10 @@ Future<void> showSlotDialog(
                               .map(
                                 (h) => DropdownMenuItem(
                                   value: h,
-                                  child: Text(FakeDb.hourLabel(h)),
+                                  child: Text(
+                                    FakeDb.hourLabel(h),
+                                    style: const TextStyle(color: AppColors.white),
+                                  ),
                                 ),
                               )
                               .toList(),

@@ -71,7 +71,7 @@ Future<void> _memberFlow(WidgetTester t) async {
         )
         .first,
   );
-  expect(find.text('History'), findsOneWidget);
+  expect(find.text('History'), findsWidgets);
   await _tapTab(t, 'Home');
   // Renew CTA sits below the fold (lazy slivers) — scroll to it.
   // NOTE: target the Home CustomScrollView explicitly; IndexedStack

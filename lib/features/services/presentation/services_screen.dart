@@ -208,6 +208,8 @@ class _ServicesScreenState extends ConsumerState<ServicesScreen> {
                 children: [
                   DropdownButtonFormField<String>(
                     initialValue: kinds.contains(kind) ? kind : null,
+                    dropdownColor: AppColors.card,
+                    style: const TextStyle(color: AppColors.white),
                     decoration: const InputDecoration(
                       labelText: 'Category',
                       prefixIcon:
@@ -215,10 +217,10 @@ class _ServicesScreenState extends ConsumerState<ServicesScreen> {
                     ),
                     items: [
                       ...kinds.map((k) => DropdownMenuItem(
-                          value: k, child: Text(_prettyKind(k)))),
+                          value: k, child: Text(_prettyKind(k), style: const TextStyle(color: AppColors.white)))),
                       const DropdownMenuItem(
                           value: '__new',
-                          child: Text('+ New category…')),
+                          child: Text('+ New category…', style: TextStyle(color: AppColors.yellow))),
                     ],
                     onChanged: (v) => setD(() {
                       isNewKind = v == '__new';
@@ -228,6 +230,7 @@ class _ServicesScreenState extends ConsumerState<ServicesScreen> {
                   if (isNewKind) ...[
                     const SizedBox(height: AppSpace.m),
                     TextFormField(
+                      style: const TextStyle(color: AppColors.white),
                       decoration: const InputDecoration(
                         labelText: 'New category name',
                         hintText: 'e.g. cardio, physio',
@@ -242,6 +245,7 @@ class _ServicesScreenState extends ConsumerState<ServicesScreen> {
                   const SizedBox(height: AppSpace.m),
                   TextFormField(
                     controller: title,
+                    style: const TextStyle(color: AppColors.white),
                     decoration: const InputDecoration(
                       labelText: 'Title',
                       hintText: 'e.g. Muscle Gain Pro',
@@ -252,6 +256,7 @@ class _ServicesScreenState extends ConsumerState<ServicesScreen> {
                   const SizedBox(height: AppSpace.m),
                   TextFormField(
                     controller: goal,
+                    style: const TextStyle(color: AppColors.white),
                     decoration: const InputDecoration(
                       labelText: 'Goal',
                       hintText: 'e.g. Muscle Gain, Weight Loss',
@@ -266,6 +271,7 @@ class _ServicesScreenState extends ConsumerState<ServicesScreen> {
                         child: TextFormField(
                           controller: price,
                           keyboardType: TextInputType.number,
+                          style: const TextStyle(color: AppColors.white),
                           decoration: const InputDecoration(
                               labelText: 'Price ₹ (0 = free)'),
                           validator: (v) =>
@@ -279,6 +285,7 @@ class _ServicesScreenState extends ConsumerState<ServicesScreen> {
                         child: TextFormField(
                           controller: days,
                           keyboardType: TextInputType.number,
+                          style: const TextStyle(color: AppColors.white),
                           decoration: const InputDecoration(
                               labelText: 'Days'),
                           validator: (v) {
@@ -294,11 +301,13 @@ class _ServicesScreenState extends ConsumerState<ServicesScreen> {
                   const SizedBox(height: AppSpace.m),
                   DropdownButtonFormField<String>(
                     initialValue: level,
+                    dropdownColor: AppColors.card,
+                    style: const TextStyle(color: AppColors.white),
                     decoration: const InputDecoration(
                         labelText: 'Level'),
                     items: const ['All', 'Beginner', 'Intermediate', 'Advanced']
                         .map((l) => DropdownMenuItem(
-                            value: l, child: Text(l)))
+                            value: l, child: Text(l, style: const TextStyle(color: AppColors.white))))
                         .toList(),
                     onChanged: (v) =>
                         setD(() => level = v ?? 'All'),
@@ -307,6 +316,7 @@ class _ServicesScreenState extends ConsumerState<ServicesScreen> {
                   TextFormField(
                     controller: desc,
                     maxLines: 2,
+                    style: const TextStyle(color: AppColors.white),
                     decoration: const InputDecoration(
                         labelText: 'Description'),
                   ),

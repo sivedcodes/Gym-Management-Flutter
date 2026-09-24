@@ -198,6 +198,7 @@ class SplitsScreen extends ConsumerWidget {
                 children: [
                   TextFormField(
                     controller: name,
+                    style: const TextStyle(color: AppColors.white),
                     decoration: const InputDecoration(
                       labelText: 'Name',
                       prefixIcon:
@@ -211,6 +212,7 @@ class SplitsScreen extends ConsumerWidget {
                   const SizedBox(height: AppSpace.s),
                   TextFormField(
                     controller: desc,
+                    style: const TextStyle(color: AppColors.white),
                     decoration: const InputDecoration(
                       labelText: 'Description',
                       prefixIcon:
@@ -220,6 +222,8 @@ class SplitsScreen extends ConsumerWidget {
                   const SizedBox(height: AppSpace.s),
                   DropdownButtonFormField<String>(
                     initialValue: level,
+                    dropdownColor: AppColors.card,
+                    style: const TextStyle(color: AppColors.white),
                     decoration: const InputDecoration(
                         labelText: 'Level'),
                     items: const [
@@ -230,7 +234,7 @@ class SplitsScreen extends ConsumerWidget {
                     ]
                         .map((l) => DropdownMenuItem(
                             value: l,
-                            child: Text(l)))
+                            child: Text(l, style: const TextStyle(color: AppColors.white))))
                         .toList(),
                     onChanged: (v) =>
                         setD(() => level = v ?? level),
@@ -251,6 +255,7 @@ class SplitsScreen extends ConsumerWidget {
                             child: TextFormField(
                               controller: dayCtrls[i],
                               enabled: !rest[i],
+                              style: TextStyle(color: rest[i] ? AppColors.grey : AppColors.white),
                               decoration: InputDecoration(
                                 labelText: rest[i]
                                     ? 'Rest'

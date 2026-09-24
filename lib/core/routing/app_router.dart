@@ -14,6 +14,7 @@ import '../../features/registration/presentation/register_screen.dart';
 import '../../features/services/presentation/book_service_screen.dart';
 import '../../features/services/presentation/services_screen.dart';
 import '../../features/splash/presentation/splash_screen.dart';
+import '../../features/member/presentation/history_screen.dart';
 
 enum AuthStatus { unknown, signedOut, needsPhone, member, owner }
 
@@ -66,6 +67,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (c, s) => RegisterScreen(planId: s.uri.queryParameters['plan']),
       ),
       GoRoute(path: '/notices', builder: (c, s) => const NoticesScreen()),
+      GoRoute(path: '/history', builder: (c, s) => const HistoryScreen()),
       GoRoute(
         path: '/music/collection',
         builder: (c, s) => CollectionScreen(
