@@ -1,4 +1,7 @@
 2026-09-24 | F16 | Completed ft/in setup inputs and BMI conversion, reduced centralized UI typography, replaced web favicon/PWA icons, added sived.codes credit, and updated flow/unit tests. | User hard-refresh verification at http://localhost:8080 | None
 2026-09-24 | F17 | Diagnosed Render `flutter: command not found`; added checksum-verified Flutter 3.44.9 bootstrap script at repo root. | Set Render build command to `bash render_build.sh`, keep publish directory `build/web`, push `main` | Render build resource limits may require a paid instance or prebuilt static output
 2026-09-24 | F18 | Created separate HistoryScreen (/history), added History tile under 'My gym timing' in ProfileScreen with Logout button directly underneath, and enforced dark mode white text styles on all input fields, dialogs, and dropdowns. | `~/development/flutter/bin/flutter test` | None
+2026-09-24 | F19 | Implemented Trainer Management with PT batch client assignment (/trainers), Equipment Issue Reporting & Maintenance status tracker (/equipment), owner dashboard cards, member profile & coach callout widgets, and comprehensive unit/widget tests. | `~/development/flutter/bin/flutter test` | None
+2026-09-24 | F20 | Redesigned Goal chips (Gain, Lose, Maintain) to 56px interactive cards with icons and sub-labels; resized Workout Split chips from bulky 168x108 blocks to 56px height x 142px width chips with distinct workout icons and difficulty tags for consistent length and balanced UI. | `~/development/flutter/bin/flutter test` | None
+
 

@@ -13,6 +13,8 @@ class FakeDb extends ChangeNotifier {
   final Map<String, ServiceItem> services = {};
   final Map<String, ServiceBooking> bookings = {};
   final Map<String, WorkoutSplit> splits = {};
+  final Map<String, GymTrainer> trainers = {};
+  final Map<String, EquipmentIssue> equipmentIssues = {};
   final List<GymNotice> notices = [];
   int _seq = 100;
 
@@ -160,6 +162,85 @@ class FakeDb extends ChangeNotifier {
           'Intermediate', ['Chest', 'Back', 'Shoulders', 'Legs', 'Arms + Abs', 'Rest & recovery', 'Rest & recovery'], {5, 6}),
     ]) {
       splits[s.id] = s;
+    }
+
+    // ---- seed certified trainers ----
+    const seedTrainers = [
+      GymTrainer(
+        id: 'trainer_1',
+        name: 'Vikram Rathore',
+        specialization: 'Strength & Bodybuilding',
+        phone: '9820011223',
+        shift: 'Morning (6 AM – 11 AM)',
+        experienceYears: 6,
+        bio: 'ISSA Certified fitness coach. Specializes in hypertrophy & prep coaching.',
+        clientUids: ['u_active', 'u_m1'],
+      ),
+      GymTrainer(
+        id: 'trainer_2',
+        name: 'Ananya Sen',
+        specialization: 'Fat Loss & HIIT Circuits',
+        phone: '9830022334',
+        shift: 'Evening (5 PM – 10 PM)',
+        experienceYears: 4,
+        bio: 'Reebok Certified functional trainer. Passionate about women fitness & conditioning.',
+        clientUids: ['u_m2', 'u_expiring'],
+      ),
+      GymTrainer(
+        id: 'trainer_3',
+        name: 'Karan Malhotra',
+        specialization: 'Powerlifting & Posture Rehab',
+        phone: '9840033445',
+        shift: 'Full Day',
+        experienceYears: 8,
+        bio: 'State powerlifting champion. Expert in barbell mechanics and injury rehabilitation.',
+        clientUids: ['u_m3'],
+      ),
+    ];
+    for (final t in seedTrainers) {
+      trainers[t.id] = t;
+    }
+
+    // ---- seed equipment issues ----
+    final seedIssues = [
+      EquipmentIssue(
+        id: 'eq_1',
+        title: 'Treadmill #2 Belt Slipping',
+        category: 'Cardio',
+        severity: 'urgent',
+        reportedByUid: 'u_expiring',
+        reportedByName: 'Amit Verma',
+        description: 'Belt slips when running above 10 km/h. Needs tension calibration or lubrication.',
+        status: 'in_progress',
+        reportedAt: now.subtract(const Duration(hours: 18)),
+      ),
+      EquipmentIssue(
+        id: 'eq_2',
+        title: 'Lat Pulldown Cable Frayed',
+        category: 'Strength',
+        severity: 'urgent',
+        reportedByUid: 'u_active',
+        reportedByName: 'Rahul Sharma',
+        description: 'Rubber coating peeling off near the top carabiner attachment clip.',
+        status: 'pending',
+        reportedAt: now.subtract(const Duration(hours: 6)),
+      ),
+      EquipmentIssue(
+        id: 'eq_3',
+        title: 'AC #1 Water Dripping',
+        category: 'Amenities',
+        severity: 'low',
+        reportedByUid: 'owner_1',
+        reportedByName: 'Gym Owner',
+        description: 'Condensation line overflowed on side wall.',
+        status: 'resolved',
+        reportedAt: now.subtract(const Duration(days: 3)),
+        resolvedAt: now.subtract(const Duration(days: 1)),
+        resolutionNote: 'Drain pipe cleaned and sealed by HVAC technician.',
+      ),
+    ];
+    for (final eq in seedIssues) {
+      equipmentIssues[eq.id] = eq;
     }
   }
 
@@ -447,4 +528,81 @@ class FakeDb extends ChangeNotifier {
       id: _next('n'), title: title, body: body, at: DateTime.now(),
     ));
   }
+
+  // ---- trainers & PT batches ----
+  List<GymTrainer> trainersList({bool activeOnly = true}) {
+    final list = trainers.values.where((t) => !activeOnly || t.active).toList()
+      ..sort((a, b) => b.experienceYears.compareTo(a.experienceYears));
+    return list;
+  }
+
+  void saveTrainer(GymTrainer trainer) {
+    trainers[trainer.id] = trainer;
+    notifyListeners();
+  }
+
+  void deleteTrainer(String id) {
+    trainers.remove(id);
+    notifyListeners();
+  }
+
+  void assignMemberToTrainer(String trainerId, String uid) {
+    final t = trainers[trainerId];
+    if (t == null) return;
+    if (!t.clientUids.contains(uid)) {
+      trainers[trainerId] = t.copyWith(clientUids: [...t.clientUids, uid]);
+      notifyListeners();
+    }
+  }
+
+  void removeMemberFromTrainer(String trainerId, String uid) {
+    final t = trainers[trainerId];
+    if (t == null) return;
+    final updated = t.clientUids.where((id) => id != uid).toList();
+    trainers[trainerId] = t.copyWith(clientUids: updated);
+    notifyListeners();
+  }
+
+  GymTrainer? trainerOf(String uid) {
+    for (final t in trainers.values) {
+      if (t.clientUids.contains(uid)) return t;
+    }
+    return null;
+  }
+
+  // ---- equipment issues & maintenance ----
+  List<EquipmentIssue> issuesList({String? status}) {
+    final list = equipmentIssues.values.where((e) {
+      if (status != null && status != 'all' && e.status != status) return false;
+      return true;
+    }).toList()
+      ..sort((a, b) => b.reportedAt.compareTo(a.reportedAt));
+    return list;
+  }
+
+  int activeIssueCount() =>
+      equipmentIssues.values.where((e) => e.status != 'resolved').length;
+
+  void reportIssue(EquipmentIssue issue) {
+    equipmentIssues[issue.id] = issue;
+    _push('Maintenance Alert', '${issue.reportedByName}: ${issue.title}');
+    notifyListeners();
+  }
+
+  void updateIssueStatus(String id, String status, {String? resolutionNote}) {
+    final current = equipmentIssues[id];
+    if (current == null) return;
+    equipmentIssues[id] = current.copyWith(
+      status: status,
+      resolvedAt: status == 'resolved' ? DateTime.now() : null,
+      resolutionNote: resolutionNote,
+    );
+    notifyListeners();
+  }
+
+  void deleteIssue(String id) {
+    equipmentIssues.remove(id);
+    notifyListeners();
+  }
 }
+

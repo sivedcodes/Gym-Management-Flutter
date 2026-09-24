@@ -163,6 +163,24 @@ class MemberHomeScreen extends ConsumerWidget {
                       child: _TodayCard(split: split),
                     ),
                   ],
+                  if (db.trainerOf(me.uid) case final coach?) ...[
+                    const SizedBox(height: AppSpace.m),
+                    FadeSlideIn(
+                      delay: const Duration(milliseconds: 165),
+                      child: Card(
+                        child: ListTile(
+                          leading: const IconTile(AppIcons.trainer, size: AppIcon.tile),
+                          title: Text('Personal Coach · ${coach.name}', style: AppText.title),
+                          subtitle: Text(
+                            '${coach.specialization} · ${coach.shift}',
+                            style: AppText.tiny,
+                          ),
+                          trailing: const Icon(AppIcons.next, color: AppColors.grey),
+                          onTap: () => context.push('/trainers'),
+                        ),
+                      ),
+                    ),
+                  ],
                   const SizedBox(height: AppSpace.sectionGap),
                   FadeSlideIn(
                     delay: const Duration(milliseconds: 170),
@@ -741,7 +759,7 @@ class _TodayCard extends StatelessWidget {
     return Card(
       color: AppColors.yellow.withValues(alpha: 0.07),
       child: ListTile(
-        leading: const IconTile(AppIcons.training,
+        leading: IconTile(AppIcons.splitIcon(split.id),
             size: AppIcon.tile),
         title: Text(
           t.rest ? 'Rest day — recover well' : 'Today: ${t.focus}',

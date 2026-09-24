@@ -466,6 +466,55 @@ class _HomeTab extends StatelessWidget {
             ),
           ),
         ),
+        const SizedBox(height: AppSpace.m),
+        FadeSlideIn(
+          delay: const Duration(milliseconds: 300),
+          child: Row(
+            children: [
+              Expanded(
+                child: Card(
+                  child: ListTile(
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: AppSpace.m,
+                      vertical: AppSpace.xs,
+                    ),
+                    leading: const IconTile(AppIcons.trainer, size: AppIcon.tile),
+                    title: Text('Trainers & PT', style: AppText.title),
+                    subtitle: Text('Coaches & batches', style: AppText.tiny),
+                    trailing: const Icon(AppIcons.next, size: 16, color: AppColors.grey),
+                    onTap: () => context.push('/trainers'),
+                  ),
+                ),
+              ),
+              const SizedBox(width: AppSpace.s),
+              Expanded(
+                child: Consumer(
+                  builder: (context, ref, _) {
+                    final activeIssues = ref.watch(fakeDbProvider).activeIssueCount();
+                    return Card(
+                      child: ListTile(
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: AppSpace.m,
+                          vertical: AppSpace.xs,
+                        ),
+                        leading: const IconTile(AppIcons.maintenance, size: AppIcon.tile),
+                        title: Text('Equipment', style: AppText.title),
+                        subtitle: Text(
+                          activeIssues > 0 ? '$activeIssues active issue(s)' : 'All operational',
+                          style: AppText.tiny.copyWith(
+                            color: activeIssues > 0 ? AppColors.yellow : null,
+                          ),
+                        ),
+                        trailing: const Icon(AppIcons.next, size: 16, color: AppColors.grey),
+                        onTap: () => context.push('/equipment'),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
         const SizedBox(height: AppSpace.sectionGap),
         const SectionHeader(title: 'Needs attention'),
         const SizedBox(height: AppSpace.sectionHeaderGap),

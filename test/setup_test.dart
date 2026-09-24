@@ -93,4 +93,62 @@ void main() {
     expect(u.bmi!.toStringAsFixed(1), '24.7');
     expect(u.hasProfile, isTrue);
   });
+
+  testWidgets('goal and workout split chips render with icons and update state',
+      (t) async {
+    await t.pumpWidget(
+      const ProviderScope(child: MaterialApp(home: SetupScreen())),
+    );
+    _seedNewUser(t);
+    await t.pumpAndSettle();
+
+    // Scroll down to Goal section
+    await t.scrollUntilVisible(
+      find.text('Gain'),
+      300,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await t.pumpAndSettle();
+
+    // Verify Goal chips with title and subtitles
+    expect(find.text('Gain'), findsOneWidget);
+    expect(find.text('Muscle'), findsOneWidget);
+    expect(find.text('Lose'), findsOneWidget);
+    expect(find.text('Fat burn'), findsOneWidget);
+    expect(find.text('Maintain'), findsOneWidget);
+    expect(find.text('Stay fit'), findsOneWidget);
+
+    // Verify Goal icons are rendered
+    expect(find.byIcon(Icons.fitness_center_rounded), findsWidgets);
+    expect(find.byIcon(Icons.local_fire_department_rounded), findsOneWidget);
+    expect(find.byIcon(Icons.balance_rounded), findsOneWidget);
+
+    // Initial state is maintain (no target kg field)
+    expect(find.text('How many kg to gain?'), findsNothing);
+    expect(find.text('How many kg to lose?'), findsNothing);
+
+    // Tap Gain chip -> target kg field appears
+    await t.tap(find.text('Gain'));
+    await t.pump();
+    expect(find.text('How many kg to gain?'), findsOneWidget);
+
+    // Tap Lose chip -> target kg field changes label
+    await t.tap(find.text('Lose'));
+    await t.pump();
+    expect(find.text('How many kg to lose?'), findsOneWidget);
+
+    // Tap Maintain chip -> target kg field disappears
+    await t.tap(find.text('Maintain'));
+    await t.pump();
+    expect(find.text('How many kg to lose?'), findsNothing);
+
+    // Verify Workout split chips are present
+    expect(find.text('Push Pull Legs'), findsWidgets);
+    expect(find.text('Bro Split'), findsOneWidget);
+
+    // Tap Bro Split -> updates selection and WeekPreview reflects it
+    await t.tap(find.text('Bro Split'));
+    await t.pumpAndSettle();
+    expect(find.text('Bro Split'), findsWidgets);
+  });
 }

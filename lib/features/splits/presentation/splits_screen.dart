@@ -336,7 +336,7 @@ class _SplitCard extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const IconTile(AppIcons.training,
+                  IconTile(AppIcons.splitIcon(split.id),
                       size: AppIcon.tile),
                   const SizedBox(width: AppSpace.m),
                   Expanded(

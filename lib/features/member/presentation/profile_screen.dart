@@ -152,7 +152,12 @@ class ProfileScreen extends ConsumerWidget {
                       ),
                       child: Row(
                         children: [
-                          const IconTile(AppIcons.goal, size: 36),
+                          IconTile(switch (me.goal) {
+                            'gain' => AppIcons.goalGain,
+                            'loss' => AppIcons.goalLoss,
+                            'maintain' => AppIcons.goalMaintain,
+                            _ => AppIcons.goal,
+                          }, size: 36),
                           const SizedBox(width: AppSpace.s),
                           Expanded(
                             child: Column(
@@ -212,8 +217,8 @@ class ProfileScreen extends ConsumerWidget {
                     endIndent: AppSpace.l,
                   ),
                   ListTile(
-                    leading: const IconTile(
-                      AppIcons.training,
+                    leading: IconTile(
+                      AppIcons.splitIcon(me.splitId ?? ''),
                       size: AppIcon.tile,
                     ),
                     title: Text('Workout split', style: AppText.title),
@@ -225,6 +230,46 @@ class ProfileScreen extends ConsumerWidget {
                     ),
                     trailing: const Icon(AppIcons.next, color: AppColors.grey),
                     onTap: () => context.push('/splits'),
+                  ),
+                  const Divider(
+                    height: 1,
+                    indent: AppSpace.l,
+                    endIndent: AppSpace.l,
+                  ),
+                  ListTile(
+                    leading: const IconTile(
+                      AppIcons.trainer,
+                      size: AppIcon.tile,
+                    ),
+                    title: Text('Gym trainers & PT', style: AppText.title),
+                    subtitle: Text(
+                      db.trainerOf(me.uid)?.name != null
+                          ? 'Coach: ${db.trainerOf(me.uid)!.name}'
+                          : 'Certified coaches & batches',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppText.small,
+                    ),
+                    trailing: const Icon(AppIcons.next, color: AppColors.grey),
+                    onTap: () => context.push('/trainers'),
+                  ),
+                  const Divider(
+                    height: 1,
+                    indent: AppSpace.l,
+                    endIndent: AppSpace.l,
+                  ),
+                  ListTile(
+                    leading: const IconTile(
+                      AppIcons.maintenance,
+                      size: AppIcon.tile,
+                    ),
+                    title: Text('Equipment & repairs', style: AppText.title),
+                    subtitle: Text(
+                      'Report a broken machine or view status',
+                      style: AppText.small,
+                    ),
+                    trailing: const Icon(AppIcons.next, color: AppColors.grey),
+                    onTap: () => context.push('/equipment'),
                   ),
                   const Divider(
                     height: 1,

@@ -271,10 +271,10 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
                         padding: EdgeInsets.only(
                           right: g == 'maintain' ? 0 : AppSpace.s,
                         ),
-                        child: AppChoice(
-                          _goalLabel(g),
-                          _goal == g,
-                          () => setState(() => _goal = g),
+                        child: _GoalChip(
+                          goal: g,
+                          selected: _goal == g,
+                          onTap: () => setState(() => _goal = g),
                         ),
                       ),
                     ),
@@ -308,7 +308,7 @@ class _SetupScreenState extends ConsumerState<SetupScreen> {
               ),
               const SizedBox(height: AppSpace.m),
               SizedBox(
-                height: 108,
+                height: 56,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   padding: EdgeInsets.zero,
@@ -447,6 +447,105 @@ class _BmiCard extends StatelessWidget {
   }
 }
 
+class _GoalChip extends StatelessWidget {
+  final String goal;
+  final bool selected;
+  final VoidCallback onTap;
+
+  const _GoalChip({
+    required this.goal,
+    required this.selected,
+    required this.onTap,
+  });
+
+  IconData get _icon => switch (goal) {
+        'gain' => AppIcons.goalGain,
+        'loss' => AppIcons.goalLoss,
+        _ => AppIcons.goalMaintain,
+      };
+
+  String get _title => switch (goal) {
+        'gain' => 'Gain',
+        'loss' => 'Lose',
+        _ => 'Maintain',
+      };
+
+  String get _subtitle => switch (goal) {
+        'gain' => 'Muscle',
+        'loss' => 'Fat burn',
+        _ => 'Stay fit',
+      };
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        height: 56,
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        decoration: BoxDecoration(
+          color: selected ? AppColors.yellow : AppColors.card,
+          borderRadius: BorderRadius.circular(AppRadius.l),
+          border: Border.all(
+            color: selected ? AppColors.yellow : AppColors.line,
+            width: selected ? 1.5 : 1.0,
+          ),
+          boxShadow: selected
+              ? [
+                  BoxShadow(
+                    color: AppColors.yellow.withValues(alpha: 0.25),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ]
+              : null,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              _icon,
+              size: 20,
+              color: selected ? AppColors.black : AppColors.yellow,
+            ),
+            const SizedBox(width: 6),
+            Flexible(
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      _title,
+                      style: AppText.label.copyWith(
+                        fontWeight: FontWeight.w700,
+                        color: selected ? AppColors.black : AppColors.white,
+                      ),
+                    ),
+                    Text(
+                      _subtitle,
+                      style: AppText.tiny.copyWith(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w600,
+                        color: selected
+                            ? AppColors.black.withValues(alpha: 0.75)
+                            : AppColors.grey,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _SplitPick extends StatelessWidget {
   final WorkoutSplit split;
   final bool selected;
@@ -463,36 +562,63 @@ class _SplitPick extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        width: 168,
+        width: 142,
+        height: 56,
         margin: const EdgeInsets.only(right: AppSpace.s),
-        padding: AppSpace.card,
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
           color: selected ? AppColors.yellow : AppColors.card,
           borderRadius: BorderRadius.circular(AppRadius.l),
           border: Border.all(
             color: selected ? AppColors.yellow : AppColors.line,
+            width: selected ? 1.5 : 1.0,
           ),
+          boxShadow: selected
+              ? [
+                  BoxShadow(
+                    color: AppColors.yellow.withValues(alpha: 0.25),
+                    blurRadius: 8,
+                    offset: const Offset(0, 2),
+                  ),
+                ]
+              : null,
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Row(
           children: [
-            Text(
-              split.name,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: AppText.title.copyWith(
-                color: selected ? AppColors.black : AppColors.white,
-              ),
+            Icon(
+              AppIcons.splitIcon(split.id),
+              size: 20,
+              color: selected ? AppColors.black : AppColors.yellow,
             ),
-            const SizedBox(height: AppSpace.xs),
-            Text(
-              split.level,
-              style:
-                  (selected
-                          ? AppText.tiny.copyWith(color: AppColors.black)
-                          : AppText.tiny)
-                      .copyWith(fontWeight: FontWeight.w700),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    split.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppText.label.copyWith(
+                      fontWeight: FontWeight.w700,
+                      color: selected ? AppColors.black : AppColors.white,
+                    ),
+                  ),
+                  Text(
+                    '${split.level} · ${split.days.where((d) => !d.rest).length}d',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppText.tiny.copyWith(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600,
+                      color: selected
+                          ? AppColors.black.withValues(alpha: 0.75)
+                          : AppColors.grey,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),

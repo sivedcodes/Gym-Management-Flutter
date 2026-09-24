@@ -72,13 +72,38 @@ abstract final class AppIcons {
   static const category = Icons.category_outlined;
   static const bolt = Icons.bolt_rounded;
   static const verified = Icons.verified_outlined;
+  static const trainer = Icons.sports_gymnastics_rounded;
+  static const equipment = Icons.fitness_center_outlined;
+  static const maintenance = Icons.handyman_outlined;
+  static const report = Icons.report_problem_outlined;
 
-  // ── Program meta (booking detail rows) ──
+  // ── Program meta (booking detail rows) & fitness goals ──
   static const goal = Icons.track_changes_rounded;
+  static const goalGain = Icons.fitness_center_rounded;
+  static const goalLoss = Icons.local_fire_department_rounded;
+  static const goalMaintain = Icons.balance_rounded;
   static const level = Icons.leaderboard_outlined;
   static const info = Icons.info_outline_rounded;
   static const weight = Icons.monitor_weight_outlined;
   static const height = Icons.height_outlined;
+
+  // ── Workout split icons ──
+  static const splitPpl = Icons.fitness_center_rounded;
+  static const splitBro = Icons.sports_martial_arts_rounded;
+  static const splitUpperLower = Icons.swap_vert_rounded;
+  static const splitFullBody = Icons.accessibility_new_rounded;
+  static const splitArnold = Icons.workspace_premium_rounded;
+  static const splitClassic = Icons.calendar_month_rounded;
+
+  static IconData splitIcon(String id) => switch (id) {
+        'split_ppl' => splitPpl,
+        'split_bro' => splitBro,
+        'split_upper_lower' => splitUpperLower,
+        'split_fullbody' => splitFullBody,
+        'split_arnold' => splitArnold,
+        'split_5day' => splitClassic,
+        _ => training,
+      };
 
   // ── Media player ──
   static const play = Icons.play_arrow_rounded;

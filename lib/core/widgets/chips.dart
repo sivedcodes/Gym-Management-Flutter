@@ -13,15 +13,17 @@ class StatusChip extends StatelessWidget {
   const StatusChip(this.status, {super.key});
 
   Color get _color => switch (status) {
-        'active' || 'approved' => AppColors.green,
-        'expiring_soon' || 'pending' => AppColors.yellow,
-        'expired' || 'denied' => AppColors.red,
+        'active' || 'approved' || 'resolved' => AppColors.green,
+        'expiring_soon' || 'pending' || 'in_progress' || 'medium' => AppColors.yellow,
+        'expired' || 'denied' || 'urgent' || 'high' => AppColors.red,
+        'low' => AppColors.blue,
         _ => AppColors.grey,
       };
 
   String get _label => switch (status) {
         'expiring_soon' => 'Expiring soon',
-        _ => status[0].toUpperCase() + status.substring(1),
+        'in_progress' => 'In Progress',
+        _ => status.isEmpty ? '' : status[0].toUpperCase() + status.substring(1),
       };
 
   @override

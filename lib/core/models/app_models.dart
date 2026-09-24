@@ -340,3 +340,101 @@ class ServiceBooking {
       endAt != null &&
       !endAt!.difference(DateTime.now()).isNegative;
 }
+
+/// Certified gym trainer & PT coach.
+class GymTrainer {
+  final String id;
+  final String name;
+  final String specialization; // Strength & Conditioning, Fat Loss & HIIT, etc.
+  final String phone;
+  final String shift; // Morning | Evening | Full Day
+  final String bio;
+  final int experienceYears;
+  final bool active;
+  final List<String> clientUids; // assigned member UIDs
+
+  const GymTrainer({
+    required this.id,
+    required this.name,
+    required this.specialization,
+    required this.phone,
+    required this.shift,
+    this.bio = '',
+    this.experienceYears = 3,
+    this.active = true,
+    this.clientUids = const [],
+  });
+
+  GymTrainer copyWith({
+    String? name,
+    String? specialization,
+    String? phone,
+    String? shift,
+    String? bio,
+    int? experienceYears,
+    bool? active,
+    List<String>? clientUids,
+  }) => GymTrainer(
+    id: id,
+    name: name ?? this.name,
+    specialization: specialization ?? this.specialization,
+    phone: phone ?? this.phone,
+    shift: shift ?? this.shift,
+    bio: bio ?? this.bio,
+    experienceYears: experienceYears ?? this.experienceYears,
+    active: active ?? this.active,
+    clientUids: clientUids ?? this.clientUids,
+  );
+}
+
+/// Gym equipment breakdown or maintenance report.
+class EquipmentIssue {
+  final String id;
+  final String title;
+  final String category; // Cardio | Strength | Free Weights | Amenities
+  final String severity; // low | medium | urgent
+  final String reportedByUid;
+  final String reportedByName;
+  final String description;
+  final String status; // pending | in_progress | resolved
+  final DateTime reportedAt;
+  final DateTime? resolvedAt;
+  final String? resolutionNote;
+
+  const EquipmentIssue({
+    required this.id,
+    required this.title,
+    required this.category,
+    required this.severity,
+    required this.reportedByUid,
+    required this.reportedByName,
+    required this.description,
+    this.status = 'pending',
+    required this.reportedAt,
+    this.resolvedAt,
+    this.resolutionNote,
+  });
+
+  EquipmentIssue copyWith({
+    String? title,
+    String? category,
+    String? severity,
+    String? description,
+    String? status,
+    DateTime? resolvedAt,
+    String? resolutionNote,
+  }) => EquipmentIssue(
+    id: id,
+    title: title ?? this.title,
+    category: category ?? this.category,
+    severity: severity ?? this.severity,
+    reportedByUid: reportedByUid,
+    reportedByName: reportedByName,
+    description: description ?? this.description,
+    status: status ?? this.status,
+    reportedAt: reportedAt,
+    resolvedAt: resolvedAt ?? this.resolvedAt,
+    resolutionNote: resolutionNote ?? this.resolutionNote,
+  );
+}
+
