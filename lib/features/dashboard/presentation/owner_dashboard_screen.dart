@@ -368,37 +368,19 @@ class _HomeTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final now = DateFormat('EEEE, dd MMM').format(DateTime.now());
     return ListView(
       padding: AppSpace.list,
       children: [
         FadeSlideIn(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('Namaste, Owner', style: AppText.display),
-              const SizedBox(height: AppSpace.xs),
-              Text(now, style: AppText.small),
-            ],
-          ),
-        ),
-        const SizedBox(height: AppSpace.sectionGap),
-        FadeSlideIn(
-          delay: const Duration(milliseconds: 60),
-          child: const SectionHeader(title: 'Rush hours'),
-        ),
-        const SizedBox(height: AppSpace.xs),
-        FadeSlideIn(
-          delay: const Duration(milliseconds: 80),
           child: RushSummary(
             peakHour: peak?.hour,
             peakCount: peak?.count ?? 0,
             total: rushTotal,
           ),
         ),
-        const SizedBox(height: AppSpace.m),
+        const SizedBox(height: AppSpace.s),
         FadeSlideIn(
-          delay: const Duration(milliseconds: 100),
+          delay: const Duration(milliseconds: 60),
           child: Card(
             margin: EdgeInsets.zero,
             child: Padding(

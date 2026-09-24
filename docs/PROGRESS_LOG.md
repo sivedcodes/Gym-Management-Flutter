@@ -9,5 +9,6 @@
 2026-09-24 | F24 | Stripped away heavy CardViews and competing buttons from LoginScreen in favor of clean athletic minimalism: 84px hero GymLogo, lightweight floating feature pills, single high-contrast Google CTA button, subtle Facilities Tour text link, and cardless demo pill. | `~/development/flutter/bin/flutter test` | None
 2026-09-24 | F25 | Eliminated duplicate 'Total Fit Gym' text on the Intro / About screen by disabling showName on the circular hero GymLogo icon, keeping the pure dumbbell badge in the glow ring and single gym name heading below. | `~/development/flutter/bin/flutter test` | None
 2026-09-24 | F26 | Fixed height disparity between 'Trainers & PT' and 'Equipment' cards in Owner Dashboard using IntrinsicHeight + CrossAxisAlignment.stretch and a dedicated _DashboardActionCard with matching padding and ellipsis constraints. | `~/development/flutter/bin/flutter test` | None
+2026-09-24 | F27 | Cleaned up Owner Dashboard Home tab header by removing 'Namaste, Owner', day/date string, and 'Rush hours' title, retaining the RushSummary subtitle and interactive chart at the top. | `~/development/flutter/bin/flutter test` | None
 
 
