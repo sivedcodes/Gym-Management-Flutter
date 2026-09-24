@@ -83,7 +83,7 @@ class IntroScreen extends ConsumerWidget {
                             ),
                           ],
                         ),
-                        child: const GymLogo(size: 68),
+                        child: const GymLogo(size: 68, showName: false),
                       ),
                       const SizedBox(height: AppSpace.m),
                       Text(
